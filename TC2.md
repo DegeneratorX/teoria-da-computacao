@@ -149,17 +149,17 @@ Em outras palavras, $\min_{t \leq y}P(x_1,...,x_n,t)$ é o menor valor de $t \le
 
 ### Exemplo de minimização
 
-Provar que $\floor{\frac{x}{y}}$ é primitivo recursivo.
+Provar que $\left\lfloor\frac{x}{y}\right\rfloor$ é primitivo recursivo.
 
 Podemos definir essa função como sendo o menor $t \leq x$ tal que $(t+1)*y > x$.
 
-Exemplo, se $x = 10$ e $y = 3$, isso implica que $(t+1)*3>10$. O menor $t$ que obedece esse predicado é 3. Portanto, $\floor{\frac{10}{3}} = 3$. Perceba que em uma divisão, $x$ sempre será maior ou igual a $t$, e por isso $t \leq x$. Afinal, o resultado de uma divisão sempre será menor ou igual ao numerador.
+Exemplo, se $x = 10$ e $y = 3$, isso implica que $(t+1)*3>10$. O menor $t$ que obedece esse predicado é 3. Portanto, $\left\lfloor\frac{10}{3}\right\rfloor = 3$. Perceba que em uma divisão, $x$ sempre será maior ou igual a $t$, e por isso $t \leq x$. Afinal, o resultado de uma divisão sempre será menor ou igual ao numerador.
 
 Isso é uma minimização, onde eu itero para procurar o primeiro $t$ que satisfaça essa propriedade até o $x$, que é um limite escolhido viável que encontro, pois $x$ é sempre maior ou igual a $t$.
 
-$$\floor{\frac{x}{y}} = \min_{t \leq x}[(t+1)*y > x]$$
+$$\left\lfloor\frac{x}{y}\right\rfloor = \min_{t \leq x}[(t+1)*y > x]$$
 
-A soma, multiplicação, comparação "$>$" e a minimização são primitivos recursivos, e a composição e recursão dessas funções resulta em $\floor{\frac{x}{y}}$ ser primitivo recursivo.
+A soma, multiplicação, comparação "$>$" e a minimização são primitivos recursivos, e a composição e recursão dessas funções resulta em $\left\lfloor\frac{x}{y}\right\rfloor$ ser primitivo recursivo.
 
 A partir de agora, caso você for demonstrar que uma função é parcialmente computável ou computável através de um programa, você vai utilizar a linguagem $\mathscr{L}$.
 
@@ -193,7 +193,7 @@ As únicas declarações que podem ser feitas em $\mathscr{L}$ são:
 
 - $V \leftarrow V$ // O valor de V fica inalterado
 
-- IF $V \neq 0$ GOTO $L$ // Se o valor de $V \neq 0$, executa-se a instrução com rótulo $L$; caso contrário, executa-se a próxima instrução na lista.
+- IF $V \neq 0$ GOTO $L$ // Se o valor de $V \neq 0$, executa-se a instrução com rótulo $L$; caso contrário, executa-se a próxima instrução na lista. Se o rótulo não existe, então encerra o programa/macro
 
 onde $V$ é uma variável e $L$ é um label/rótulo.
 
@@ -228,23 +228,78 @@ $$
 
 Esse programa
 
-$$
-\begin{array}{ll}
-\text{[} A \text{]}\quad  & \text{IF } X \neq 0 \text{ GOTO } B\\
-  & Z \leftarrow Z + 1\\
-  & \text{IF } Z \neq 0 \text{ GOTO } E\\
-\text{[} B \text{]}\quad & X \leftarrow X - 1\\
-  & Y \leftarrow Y + 1\\
-  & Z \leftarrow Z + 1\\
-  & \text{IF } Z \neq 0 \text{ GOTO } A
-\end{array}
-$$
+```
+[A]  IF X ≠ 0 GOTO B            // Se for zero, encerra. Se não for, itera.
+     Z ← Z + 1                  // Variável Z de controle para sair do programa
+     IF Z ≠ 0 GOTO E            // Força a saída do programa
+[B]  X ← X - 1                  // Decrementa X
+     Y ← Y + 1                  // Ao mesmo tempo que incrementa Y
+     Z ← Z + 1                  // Variável Z para forçar a iteração
+     IF Z ≠ 0 GOTO A            // Força o GOTO A
+```
 
 computa a função $f(x) = x$.
 
 ### Exemplo de programa
 
 Esse programa
+
+```
+     Y ← X1                     // Y recebe a primeira entrada
+     Z ← X2                     // Z recebe a segunda entrada
+[B]  IF Z ≠ 0 GOTO A            // Se Z = 0, sai do programa (próxima linha), soma inalterada
+     GOTO E                     // Nenhuma instrução rotulada com [E], sai do programa
+[A]  Z ← Z - 1                  // Decrementa Z até esgotar as unidades (Z = 0) para somar com Y
+     Y ← Y + 1                  // Incrementa Y até Z zerar as unidades
+     GOTO B                     // Repito o incremento, mas antes verifico se Z = 0.
+```
+
+Computa a função $x_1 + x_2$, ou $soma(x_1, x_2)$.
+
+### Exemplo de programa
+
+Esse programa
+
+```
+     Y ← X1                     // Y recebe a primeira entrada
+     Z ← X2                     // Z recebe a segunda entrada
+[C]  IF Z ≠ 0 GOTO A            // Se Z = 0, sai do programa (próxima linha), subtração inalterada
+     GOTO E                     // Nenhuma instrução rotulada com [E], sai do programa
+[A]  IF Y ≠ 0 GOTO B            // Se chegou aqui e Y = 0, então Z > Y, e portanto entra em loop infinito na subtração
+     GOTO A                     // Iteração com loop infinito
+[B]  Y ← Y - 1                  // Decrementa Y para calcular a subtração final
+     Z ← Z - 1                  // Decrementa Z até esgotar as unidades (Z = 0) para subtrair Y
+     GOTO C                     // Repito o decremento, mas antes verifico se Z = 0.
+```
+
+computa a função
+
+$$
+f(x_1, x_2) = \begin{cases} 
+x_1-x_2 & \text{se } x_1 \ge x_2 \\
+\uparrow & \text{se } x_1 < x_2 
+\end{cases}
+$$
+
+Onde $\uparrow$ representa o loop infinito.
+
+### Exemplo de programa
+
+Esse programa
+
+```
+V <= V’
+[A]  Y ← 1                    // Inicializa Y como 1, assumindo que V ≤ V'
+[B]  IF V = 0 GOTO E          // Se V é 0, V ≤ V' é verdadeiro para qualquer V'
+     IF V' = 0 GOTO D         // Se V' é 0 e V não é 0, então V > V', seta Y para 0
+     V' ← V' - 1              // Decrementa V'
+     V ← V - 1                // Decrementa V
+     GOTO B                   // Repete até que um dos valores seja completamente decrementado
+[D]  Y ← Y - 1                // Configura Y como 0, pois V > V'
+[E]                           // Continua se V foi 0 e confirma que V ≤ V', Y permanece 1
+```
+
+Computa o predicado $V \leq V'$.
 
 ## Sua tarefa, estudante de ciência da computação.
 
