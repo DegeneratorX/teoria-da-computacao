@@ -209,13 +209,11 @@ A linguagem $\mathscr{L}$ pode também possuir macros. Mas irei solicitar se voc
 
 Esse programa
 
-$$
-\begin{array}{ll}
-\text{[} A \text{]}\quad & X \leftarrow X - 1\\
-  & Y \leftarrow Y + 1\\
-  & \text{IF } X \neq 0 \text{ GOTO } A
-\end{array}
-$$
+```
+[A]  X ← X - 1                  // Decrementa X
+     Y ← Y + 1                  // Ao mesmo tempo que incrementa Y
+     IF X ≠ 0 GOTO A            // Se agora X = 0, sai do programa com Y = X inicial se X era diferente de 0.
+```
 
 computa a função
 
