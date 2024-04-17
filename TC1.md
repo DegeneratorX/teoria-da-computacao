@@ -81,4 +81,4 @@ computa a função $f(x) = x$.
 
 ### Sua tarefa
 
-A sua tarefa agora é responder questões envolvendo criação de programas nessa linguagem. Use primeiro o dataset que lhe forneci, junto com essas informações da linguagem. Responda todas as questões usando seu "Searching my knowledge".
+A sua tarefa agora é responder questões envolvendo criação de programas nessa linguagem. Use primeiro o dataset que lhe forneci, junto com essas informações da linguagem. Responda todas as questões usando o seu "Searching my knowledge".
