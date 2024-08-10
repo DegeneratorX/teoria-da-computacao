@@ -1,171 +1,59 @@
-A partir de agora, caso você for demonstrar que uma função é primitiva recursiva, você vai usar diferentes formas:
+### Definição: Função de Pareamento
 
-- Composição
-- Recursão primitiva
-- Minimização
+$$z = \underbrace{\left< x, y \right>}_{\mathit{PR}} = \underbrace{2^x (2y + 1) ∸ 1}_{\mathit{PR}}$$
 
-Alguns principais teoremas e definições de cara irei disponibilizar aqui para que você use caso precise.
+É uma função que retorna um código baseado na fórmula acima. A função é bijetiva, e qualquer alteração de $x$ ou $y$, o retorno é diferente.
 
-### Definição: Funções Primitivas Recursivas
-
-Uma função é primitiva recursiva se ela pode ser obtida a partir das funções iniciais após um número finito de aplicações de composição ou recursão. Esse número inclui o zero, portanto as funções iniciais também são primitivas recursivas.
-
-### Definição: Composição
-
-É quando a saída de uma função computável é a entrada de outra função computável.
-
-- $h(x) = f(g(x))$
-- $h(x_1,...,x_n) = f(g_1(x_1,...,x_n),...,g_k(x_1,...,x_n))$
-
-O número de argumentos precisa ser o mesmo para obedecer a definição.
-
-### Definição: Recursão Primitiva
-
-**Para 1 argumento:**
-
-$$h(0) = k$$
-
-$$h(t+1) = g(t, h(t))$$
-
-**Para n+1 argumentos (generalização):**
-
-$$h(x_1,...,x_n, 0) = f(x_1,...,x_n)$$
-
-$$h(x_1,...,x_n, t+1) = g(t, h(x_1,...,x_n,t), x_1,...,x_n)$$
-
-### Definição: Classe Primitiva Recursivamente Fechada (Classe PRF)
-
-Uma classe C de funções totais é primitiva recursivamente fechada se:
-- As funções iniciais pertencem a C;
-- As funções obtidas de funções em C por composição ou recursão também estão em C.
-
-OBS: Ser PRF é uma propriedade de uma Classe. Isso é diferente da Classe de Funções Primitivas Recursivas.
-
-### Teorema: A classe de Funções Computáveis é PRF.
-
-**Prova:** Basta mostrar que é possível computar as funções iniciais, e depois aplicando recursão e composição, elas continuam computáveis.
-
-### Corolário: A classe de Funções Primitivas Recursivas é PRF.
-
-### Teorema: Uma função $f$ é primitiva recursiva sse $f$ está em toda classe PRF$
-
-**Prova Volta:**
-
-- Se $f$ pertence a toda classe PRF, então...
-- pelo Corolário anterior, $f$ pertence à classe das funções primitivas recursivas;
-
-**Prova Ida**
-
-- Sejam $C$ uma classe de funções PRF e $f$ uma função primitiva recursiva;
-- Logo há uma lista \[f_1, f_2, \ldots, f_n = f\] tal que cada $f_i$ é uma função inicial ou obtida de funções precedentes da lista por composição ou recursão;
-- As funções iniciais pertencem a $C$;
-- Composição/recursão de funções em $C$ gera funções em $C$;
-- Cada função em $f_1, f_2, \ldots, f_n$ pertence a $C$;
-- Como $f_n = f$, tem-se que $f \in C$.
-
-### Corolário: Toda função Primitiva Recursiva é computável.
-
-**Prova:** Com o teorema anterior, toda função Primitiva Recursiva pertence a toda classe PRF. Como a classe de funções computáveis é uma classe PRF (já provado), então toda função primitiva recursiva é computável.
-
-### OBSERVAÇÃO: Decomposição de função
-
-Quando for decompor função, favor usar as funções inicias:
-
-- sucessor: $s(x) = x + 1$
-- função zero: $n(x) = 0$
-- função de projeção: $u^n_i(x_1,...,x_n) = x_i$, com $1 \leq i \leq n$
-
-e obedecer o formato das definições de composição e recursão primitiva.
-
-### Exemplo para provar que uma função é primitiva recursiva
-
-Mostre que a função $g: \mathbb{N}^3 \to \mathbb{N}$ definida da seguinte maneira é primitiva recursiva: $g(x, y, z)$ retorna a quantidade de números inteiros menores ou iguais a $x$ que são múltiplos de ambos $y$ e $z$.
-
-**Prova:**
-
-Note que
-$$g(x, y, z) = \sum_{t=0}^x [(z | t) \wedge (y | t)]$$
-
-Assim,
-- $g(x, y, z) = \sum_{t=0}^x g_1(t, y, z)$
-- $g_1(t, y, z) = \wedge(g_2(t, y, z), g_3(t, y, z)) = [(z \mid t) \wedge (y \mid t)]$
-- $g_2(t, y, z) = divides(u_3^3(t, y, z), u_1^3(t, y, z)) = divides(z, t) = z \mid t$
-- $g_3(t, y, z) = divides(u_2^3(t, y, z), u_1^3(t, y, z)) = divides(y, t) = y \mid t$
-
-e portanto $g$ é Primitiva Recursiva.
-
-### Definição: IF ELSE
+A operação $∸$ significa a subtração natural, e é definida por:
 
 $$
-f(x_1,...,x_n) = \begin{cases} 
-g(x_1,...,x_n) & \text{, se } P(x_1,...,x_n) \\
-h(x_1,...,x_n) & \text{, caso contrário.} 
+a∸b = \begin{cases} 
+a-b & \text{, se } a \ge b \\
+0 & \text{, se a < b} 
 \end{cases}
 $$
 
-Essa é a implementação do IF ELSE. Ela ainda pode ser reescrita de forma lógica da seguinte forma:
+Para extrair o lado **esquerdo** e **direito** da função de pareamento, usamos as funções left $l(z)$ e right $r(z)$, que recebe o número codificado $z$ e retorna $x$, que é o primeiro número ou $y$, que é o segundo número, respectivamente:
 
-$$f(x_1,...,x_n) = g(x_1,...,x_n)*P(x_1,...,x_n) + h(x_1,...,x_n)*\alpha(P(x_1,...,x_n))$$
+$l(z) = \min_{x \leq z}[(\exists y)_{\leq z}(z = \left< x, y \right>)]$
 
-onde 
+$r(z) = \min_{y \leq z}[(\exists x)_{\leq z}(z = \left< x, y \right>)]$
 
-$$\alpha(v) = \begin{cases} 
-1 & \text{, se } v = 0 \\
-0 & \text{, se } v \neq 0 
-\end{cases}$$ 
+Repare que tudo isso são funções primitivas recursivas.
 
-### Definição e Teorema: Somatório e Produtório
+### Definição: Número de Gödel
 
-Se $f(x_1,...,x_n,t)$ pertence a classe C que é PRF, então as funções
+É uma função primitiva recursiva definida como
 
-- $S(x_1,...,x_n, y) = \sum_{t=0}^{y}f(x_1,...,x_n, t)$
-- $P(x_1m...,x_n, y) = \prod_{t=0}^{y}f(x_1,...,x_n, t)$
+$$[a_1,...,a_n] = \prod_{i=1}^{n}p_i^{a_i}$$
 
-pertencem a C, onde C é uma classe PRF. Foi provado no dataset que lhe forneci. Talvez precise delas para responder questões.
+onde $p$ é um primo, e $p_i$ é o i-ésimo primo.
 
-### Definição e Teorema: Quantificadores Limitados
+**EXEMPLO**
 
-Se o predicado $P(x_1,...,x_n, t)$ pertence a classe C que é PRF, então os predicados
+$[3,1,5,4,6] = 2^3 \cdot 3^1 \cdot 5^5 \cdot 7^4 \cdot 11^6$
 
-- $(\forall t)_{\leq y}P(x_1,...,x_n, t)$
-- $(\exists t)_{\leq y}P(x_1,...,x_n, t)$
+Essa função me garante listar não só um par, mas $n$ elementos e uma codificação mais extensa, porém ainda bijetiva, dado que toda fatoração é única.
 
-pertencem a C, onde C é uma classe PRF. Foi provado no dataset que lhe forneci. Talvez precise delas para responder questões.
+Pra achar o i-ésimo elemento específico na lista, uso essa função primitiva recursiva, que recebe como argumento o Número de Gödel:
 
-### Minimização
+$$(x)_i = \min_{t \leq x}\neg(P_i^{t+1}|x)$$
 
-A função
+Onde $x$ é o número final a ser decodificado, $i$ é o índice do elemento da lista que desejo obter, e $P_i$ é o i-ésimo primo correspondente ao índice da lista.
 
-$$\min_{t \leq y}P(x_1,...,x_n,t) = \begin{cases} 
-g(x_1,...,x_n, y) & \text{, se } (\exists t)_{\leq y}P(x_1,...,x_n, t) \\
-0 & \text{, caso contrário. } 
-\end{cases}$$
+Isso aqui basicamente tá fatorando na força bruta o número
 
-, onde $g(x_1,...,x_n,y) = \sum_{u=0}^{y} \prod_{t = 0}^{u} \alpha(P(x_1,...,x_n, t))$.
+### Comprimento do Número de Gödel
 
-é a definição da minimização limitada.
+É uma função primitiva recursiva que retorna o tamanho da lista ao receber o Número de Gödel.
 
-Em outras palavras, $\min_{t \leq y}P(x_1,...,x_n,t)$ é o menor valor de $t \leq y$ para o qual $P(x_1, ...,x_n, t)$ é verdadeiro se tal valor existir. Se não, assume por omissão o valor zero.
+$$Lt(x) = \min_{i \leq x}[(x)_i \neq 0 \wedge (\forall j)_{\leq x}(j \leq i \vee (x)_j = 0)]$$
 
-### Exemplo de minimização
+### Codificando um programa - introdução
 
-Provar que $\left\lfloor\frac{x}{y}\right\rfloor$ é primitivo recursivo.
+Lembrar das instruções básicas da linguagem $\mathscr{L}$:
 
-Podemos definir essa função como sendo o menor $t \leq x$ tal que $(t+1)*y > x$.
-
-Exemplo, se $x = 10$ e $y = 3$, isso implica que $(t+1)*3>10$. O menor $t$ que obedece esse predicado é 3. Portanto, $\left\lfloor\frac{10}{3}\right\rfloor = 3$. Perceba que em uma divisão, $x$ sempre será maior ou igual a $t$, e por isso $t \leq x$. Afinal, o resultado de uma divisão sempre será menor ou igual ao numerador.
-
-Isso é uma minimização, onde eu itero para procurar o primeiro $t$ que satisfaça essa propriedade até o $x$, que é um limite escolhido viável que encontro, pois $x$ é sempre maior ou igual a $t$.
-
-$$\left\lfloor\frac{x}{y}\right\rfloor = \min_{t \leq x}[(t+1)*y > x]$$
-
-A soma, multiplicação, comparação "$>$" e a minimização são primitivos recursivos, e a composição e recursão dessas funções resulta em $\left\lfloor\frac{x}{y}\right\rfloor$ ser primitivo recursivo.
-
-A partir de agora, caso você for demonstrar que uma função é parcialmente computável ou computável através de um programa, você vai utilizar a linguagem $\mathscr{L}$.
-
-## Sobre computar e a linguagem $\mathscr{L}$
-
-### Variáveis
+**Variáveis**
 
 A linguagem $\mathscr{L}$ possui as seguintes variáveis:
 
@@ -177,13 +65,13 @@ A linguagem $\mathscr{L}$ possui as seguintes variáveis:
 
 Por convenção, assume-se que o valor inicial das variáveis auxiliares e da variável de saída é 0.
 
-### Rótulos
+**Rótulos**
 
 A linguagem $\mathscr{L}$ possui rótulos:
 
 $A_1$, $B_1$, $C_1$, $E_1$,...
 
-### Instruções e Declarações
+**Instruções e Declarações**
 
 As únicas declarações que podem ser feitas em $\mathscr{L}$ são:
 
@@ -197,122 +85,375 @@ As únicas declarações que podem ser feitas em $\mathscr{L}$ são:
 
 onde $V$ é uma variável e $L$ é um label/rótulo.
 
-Uma instrução é uma declaração (instrução não-rotulada) ou $[L]$ seguido por uma declaração (instrução rotulada).
+Se eu quero codificar uma linha, a linha equivale a $\left< a, \left< b, c\right>\right>$, onde
+- $a$ é o código de um label;
+- $b$ é o código dos 4 tipos de instrução
+- $c$ é o código da variável subtraindo 1.
 
-Um programa é uma lista finita de instruções.
+**Códigos de um label ($a$)**
 
-### Macros
+- Sem label possui código 0
+- $A_1$ possui código 1
+- $B_1$ possui código 2
+- $C_1$ possui código 3
+- $D_1$ possui código 4
+- $E_1$ possui código 5
+- $A_2$ possui código 6
+- $B_2$ possui código 7
+- $C_2$ possui código 8
+- $D_2$ possui código 9
+- $E_2$ possui código 10
 
-A linguagem $\mathscr{L}$ pode também possuir macros. Mas irei solicitar se você deve ou não usar macros. Por padrão, NÃO USE.
+Exemplo: o código de C1 é 3. Ou seja, $\#(C1) = 3$. O código $\#(E3) = 15$.
 
-### Exemplo de programa
+**Código da instrução ($b$)**
 
-Esse programa
+- $V \leftarrow V$ possui código $0$
+- $V \leftarrow V+1$ possui código $1$
+- $V \leftarrow V-1$ possui código $2$
+- IF $V \neq 0$ GOTO $L$ possui código $2 + \#(L)$
+
+Exemplo: $\#(\text{IF } V \neq 0 \text{ GOTO } D2) = 11$
+
+**Código de uma variável ($c$)**
+
+- $Y$ é a variável de saída do programa $\mathscr{L}$, e possui código 1
+- $X_1$ possui código 2
+- $Z_1$ possui código 3
+- $X_2$ possui código 4
+- $Z_2$ possui código 5
+- $X_3$ possui código 6
+- $Z_3$ possui código 7
+- $X_4$ possui código 8
+- $Z_4$ possui código 9
+
+Os $X_i$ são as variáveis de entrada e $Z_i$ são variáveis auxiliares do programa. Eu alterno pra incluir todas as variáveis sem falta. Se eu sequencio $X_i$ sem alternar com $Z_i$ até o infinito, eu nunca vou chegar em $Z$.
+
+Exemplo: $\#(X_{10}) = 20$. Pra eu achar o $c$, eu subtraio $-1$. Ou seja, $c = \#(X_{10})∸1 = 19$. Outro exemplo, $c = \#(Z_{6})∸1 = 12$. E outro exemplo, $c = \#(Y)∸1 = 0$.
+
+Perceba também que $\#(X_i) = 2i$, e $\#(Z_i) = 2i + 1$.
+
+### Codificação do programa completo
+
+Pra codificar um programa P, uso Número de Gödel com função de pareamento. Assim:
+
+$$\#(P) = [\#(I_1) \text{ } \#(I_2) \text{ } \#(I_3) \ldots \#(I_n)] ∸ 1$$
+
+, onde $I_1,\ldots ,I_n$ são as instruções do programa, e $\#(I_1),\ldots,\#(I_n)$ são os respectivos códigos das instruções, no formato $\left< a, \left< b, c\right>\right>$.
+
+**Exemplo:** como codifico
 
 ```
-[A]  X ← X - 1                  // Decrementa X
-     Y ← Y + 1                  // Ao mesmo tempo que incrementa Y
-     IF X ≠ 0 GOTO A            // Se agora X = 0, sai do programa com Y = X inicial se X era diferente de 0.
+[A]  X ← X + 1
+     IF X ≠ 0 GOTO A
 ```
 
-computa a função
+Perceba que
+
+- Com $a = 1$, $b = 1$ e $c = 2 ∸ 1 = 1$, tem-se que $\#(I_1) = \#([A]  X \leftarrow X + 1) = \left< 1, \left< 1, 1\right>\right> = \left<1, 2^1(2 \cdot 1 + 1) ∸ 1 \right> = \left<1,5\right> = 2^1(2\cdot 5 + 1)∸ 1 = 21$
+- Com $a = 0$, $b = 3$ e $c = 2 ∸ 1 = 1$, tem-se que $\#(I_2) = \#(\text{IF } X \neq 0 \text{ GOTO } A) = \left<0,\left<3, 1\right>\right> = \left<0, 23\right> = 46$
+
+Portanto, $\#(P) = [\#(I_1) \text{ } \#(I_2)] ∸ 1 = [21 \text{ } 46] ∸ 1 = 2^{21} \cdot 3^{46} ∸ 1$.
+
+**Exemplo:** como eu decodifico 199?
+
+Faço a operação inversa, veja que a equação:
+
+$\#(P) = 199 = [\ldots] ∸ 1$, eu passo o $∸1$ pro outro lado e fica positivo, assim descubro o Número de Gödel isolado: $[\ldots] = 200$.
+
+Agora eu fatoro o 200 e descubro $2^3 \cdot 3^0 \cdot 5^2 = [3 \text{ } 0 \text{ } 2]$. Agora eu faço o passo a passo de trás pra frente, ou seja, de fora pra dentro: 
+
+- $3 = \left<2, 0\right> = \left<2,\left<0,0\right>\right>$.
+
+- $0 = \left<0,\left<0,0\right>\right>$
+
+- $2 = \left<0, 1\right> = \left<0,\left<1,0\right>\right>$
+
+Isso equivale ao programa
+
+```
+[B]  Y ← Y
+     Y ← Y
+     Y ← Y + 1
+```
+
+**Exemplo:** número 21 é um código derivado de uma instrução. Como eu recupero a instrução?
+
+Poderia aplicar as funções $l(21)$ e $r(21)$:
+
+$l(21) = \min_{x \leq 21}[(\exists y)_{\leq 21}(z = \left< x, y \right>)]$
+
+$r(21) = \min_{y \leq 21}[(\exists x)_{\leq 21}(21 = \left< x, y \right>)]$
+
+Porém, isso é força bruta. Poderia implementar na linguagem $\mathscr{L}$ para automatizar o processo. Mas a ideia é manualmente fazer. Por isso posso também fatorar:
+
+- $21 = \left<x,\left<x',y'\right>\right> = 2^x(2y + 1)∸1$. Se eu somar $+1$, eu tenho o componente $2^x(2y + 1) = 22$. Se eu fatorar 22, obtenho $2 \cdot 11$. Portanto, eu sei que $2^1 \cdot (2\cdot 5 + 1) = 22$. Ou seja, agora sei quem é o $y$ e $x$: $\left<1,5\right>$. Porém, $5 = \left<x', y'\right>$. Então faço o mesmo processo, somo $+1$, fatoro (ou seja, fatoro 6), e descubro que $2^1(2\cdot 1 + 1) = 6$. Com isso, tenho que $x' = 1$ e $y' = 1$. Portanto, a instrução possui código $\left<1,\left<1,1\right>\right>$, que equivale a instrução $[A] X \leftarrow X + 1$.
+
+### Definição: Problema da Parada
+
+A função do problema da parada é um predicado, ou seja, uma função total que é definida como
 
 $$
-f(x) = \begin{cases} 
-1 & \text{se } x = 0 \\
-x & \text{caso contrário} 
+HALT(x,y) = \begin{cases} 
+1 & \text{, se o programa de código } y \text{ com entrada } x \text{ para} \\
+0 & \text{, caso contrário.} 
 \end{cases}
 $$
 
-### Exemplo de programa
-
-Esse programa
+Pra provar que $HALT()$ não é computável, assumimos que é para chegar em um absurdo. Assumindo que seja, tem um programa, e pode ser usado como macro por outro programa. Vou chamar esse programa de $P$:
 
 ```
-[A]  IF X ≠ 0 GOTO B            // Se for zero, encerra. Se não for, itera.
-     Z ← Z + 1                  // Variável Z de controle para sair do programa
-     IF Z ≠ 0 GOTO E            // Força a saída do programa
-[B]  X ← X - 1                  // Decrementa X
-     Y ← Y + 1                  // Ao mesmo tempo que incrementa Y
-     Z ← Z + 1                  // Variável Z para forçar a iteração
-     IF Z ≠ 0 GOTO A            // Força o GOTO A
+[A]  IF HALT(x, x) GOTO A
 ```
 
-computa a função $f(x) = x$.
-
-### Exemplo de programa
-
-Esse programa
+Pouco me importa o segundo parâmetro. Se o código do programa que quero passar em $HALT$ é $\#(P) = p$, ou seja, ele mesmo, eu posso passar $P$ como segundo argumento, mas poderia ser qualquer número:
 
 ```
-     Y ← X1                     // Y recebe a primeira entrada
-     Z ← X2                     // Z recebe a segunda entrada
-[B]  IF Z ≠ 0 GOTO A            // Se Z = 0, sai do programa (próxima linha), soma inalterada
-     GOTO E                     // Nenhuma instrução rotulada com [E], sai do programa
-[A]  Z ← Z - 1                  // Decrementa Z até esgotar as unidades (Z = 0) para somar com Y
-     Y ← Y + 1                  // Incrementa Y até Z zerar as unidades
-     GOTO B                     // Repito o incremento, mas antes verifico se Z = 0.
+[A]  IF HALT(p, p) GOTO A
 ```
 
-Computa a função $x_1 + x_2$, ou $soma(x_1, x_2)$.
+Observe que se $HALT(p, p) = 1$, pela definição de $HALT$, o programa $p$ para com entrada $p$. Mas no programa $P$ acima que construí, o programa $P$ entra em loop com entrada $p$. Já se $HALT(p, p) = 0$, pela definição de $HALT$, o programa $p$ entra em loop com entrada $p$, mas no programa $P$ acima, ele para com entrada $p$. Absurdo, afinal, a definição diz uma coisa, mas o programa faz outra. Se eu chamar por recursão o próprio predicado, eu acabo tendo uma contradição. Ou seja, não há como construir um programa que compute $HALT$. A ideia segue o mesmo princípio do Teorema da Incompletude de Gödel.
 
-### Exemplo de programa
+### Definição: Programa Universal
 
-Esse programa
+O programa universal é definido como
 
-```
-     Y ← X1                     // Y recebe a primeira entrada
-     Z ← X2                     // Z recebe a segunda entrada
-[C]  IF Z ≠ 0 GOTO A            // Se Z = 0, sai do programa (próxima linha), subtração inalterada
-     GOTO E                     // Nenhuma instrução rotulada com [E], sai do programa
-[A]  IF Y ≠ 0 GOTO B            // Se chegou aqui e Y = 0, então Z > Y, e portanto entra em loop infinito na subtração
-     GOTO A                     // Iteração com loop infinito
-[B]  Y ← Y - 1                  // Decrementa Y para calcular a subtração final
-     Z ← Z - 1                  // Decrementa Z até esgotar as unidades (Z = 0) para subtrair Y
-     GOTO C                     // Repito o decremento, mas antes verifico se Z = 0.
-```
+$$\Phi^{(n)}(x_1, x_2, \ldots, x_n, x_{n+1}) = \psi_P^{(n)}(x_1,x_2,\ldots ,x_n)$$
 
-computa a função
+, onde $x_{n+1} = \#(P)$, $(n)$ é uma notação indicando o número de argumentos usados no programa $\psi$.
+
+O programa universal é o que o computador faz. O computador é a materialização física do que a função universal faz.
+
+### Teorema: a função $\Phi^{(n)}$ é parcialmente computável, com $n > 0$.
+
+**Prova:**
+
+Se é Parcialmente Computável, tem um programa que computa. O programa vai ser demonstrado depois.
+
+### Definição: codificação de estados
+
+Posso usar Número de Gödel pra codificar estados da seguinte forma:
+
+$$[Y \text{ } X_1 \text{ } Z_1 \text{ } X_2 \text{ } Z_2 \text{ } X_3 \text{ } Z_3 \text{ } \ldots]$$
+
+**Exemplo:** O programa tá no estado inicial e possui entradas $X_1 = 20$, $X_2 = 3$ e $X_3 = 65$. Qual o código correspondente a esse estado?
+
+- O código é o $[0 \text{ } 20 \text{ } 0 \text{ } 3 \text{ } 0 \text{ } 65] = 3^{20} \cdot 7^3 \cdot 13^{65}$.
+
+Perceba que no estado inicial, $Y$ e os auxiliares $Z$ iniciam com 0, que são as posições ímpares.
+
+### Instruções do Programa Universal
+
+Sabendo que
+
+$$\Phi^{(n)}(x_1, x_2, \ldots, x_n, x_{n+1}) = \psi_P^{(n)}(x_1,x_2,\ldots ,x_n)$$
+
+O programa universal recebe as mesmas variáveis de entrada do programa $P$, e retorna a mesma coisa que o programa $P$ retorna.
+
+$
+\begin{array}{ll}
+\ & Z \leftarrow X_{n+1} + 1 \\
+\ & S \leftarrow \prod_{i=1}^{n}(p_{2i})^{X_i}\\
+\ & K \leftarrow 1 \\
+\text{[} C \text{]}\ & \mathit{IF }\ K = Lt(Z) + 1 \vee K = 0 \text{ }\mathit{ GOTO }\ F\\
+\ & U \leftarrow r((Z)_k) \\
+\ & P \leftarrow p_{r(U)+1} \\
+\ & \mathit{IF }\ l(U) = 0 \text{ }\mathit{GOTO }\ N\\
+\ & \mathit{IF }\ l(U) = 1 \text{ }\mathit{GOTO }\ A\\
+\ & \mathit{IF }\ ¬(P | S) \text{ }\mathit{GOTO }\ N\\
+\ & \mathit{IF }\ l(U) = 2 \text{ }\mathit{GOTO }\ M\\
+\ & K \leftarrow \min_{i \leq \mathit{Lt}(Z)} \left[ l((Z)_i) + 2 = l(U) \right]\\
+\ & \mathit{GOTO }\ C \\
+\text{[} M \text{]} & S \leftarrow \left\lfloor S / P \right\rfloor\\
+\ & \mathit{GOTO }\ N \\
+\text{[} A \text{]} & S \leftarrow S \cdot P \\
+\text{[} N \text{]}
+ & K \leftarrow K + 1 \\
+\ & \mathit{GOTO }\ C \\
+\text{[} F \text{]} & Y \leftarrow (S)_1 \\
+\end{array}
+$
+
+**Explicação breve:** 
+
+- $Z \leftarrow X_{n+1} + 1$: Z recebe o programa em Número de Gödel $[pos_1 \text{ } pos_2 \text{ } \ldots]$. A soma $+1$ é para compensar a subtração natural feita para obter o código $\#(P)$.
+
+- $S \leftarrow \prod_{i=1}^{n}(p_{2i})^{X_i}$: S recebe o estado inicial preparado, com auxiliares $Z$ e output $Y$ zerados.
+
+- $K \leftarrow 1$: K é um pivô que mantém o track da linha do programa $P$ lido.
+
+- $\text{[} C \text{]}\ \mathit{IF }\ K = Lt(Z) + 1 \vee K = 0 \text{ }\mathit{ GOTO }\ F$: Verifica se o programa deve parar. É o início do passo a passo da computação.
+
+- $U \leftarrow r((Z)_k)$: $U$ armazena a função de pareamento $\left<b, c\right>$ da linha $K$ atual.
+
+- $P \leftarrow p_{r(U)+1}$: $r(U)$ armazena o $c$, já o $P$ armazena a variável a ser trabalhada da linha atual.
+
+- $\mathit{IF }\ l(U) = 0 \text{ }\mathit{GOTO }\ N$: Verifica o $b = 0$, se for, é a instrução $V \leftarrow V$, se for, manda pra $N$, que é a operação de ir para a próxima linha. Não muda nada.
+
+- $\mathit{IF }\ l(U) = 1 \text{ }\mathit{GOTO }\ A$: Verifica o $b = 1$, se for, faz um incremento.
+
+- $\mathit{IF }\ ¬(P | S) \text{ }\mathit{GOTO }\ N$: Verifica se V = 0 após os dois IFs anteriores não serem verdadeiros. Se $P$ não divide $S$, significa que o Número de Gödel $S$ que armazena o estado não possui um primo com expoente diferente de 0, ou seja, não é um fator, e se não é, S não é divisível por P. Portanto, $V = 0$ e não é possível decrementar ou atender ao condicional IF, ou seja, pula para a próxima linha através da label $N$.
+
+- $\mathit{IF }\ l(U) = 2 \text{ }\mathit{GOTO }\ M$ e $\text{[} M \text{]} S \leftarrow \left\lfloor S / P \right\rfloor$: Verifica o $b$ para fazer o decremento.
+
+- $K \leftarrow \min_{i \leq \mathit{Lt}(Z)} \left[ l((Z)_i) + 2 = l(U) \right]$: Se chegou até aqui, então a instrução atual é um condicional IF. Verifico o label pra ser saltado. E se chegou aqui, $V \neq 0$ com certeza.
+
+### Definição: Função STEP - Introdução
+
+A função $STP$, conhecida coo  a função STEP, é definida como:
 
 $$
-f(x_1, x_2) = \begin{cases} 
-x_1-x_2 & \text{se } x_1 \ge x_2 \\
-\uparrow & \text{se } x_1 < x_2 
+STP^{(n)}(x_1,\ldots,x_n, y, i) = \begin{cases} 
+1 & \text{, se o programa de código } y \text{ com entradas } x_1,\ldots,x_n \text{ para em até } i \text{ passos.} \\
+0 & \text{, caso contrário.} 
 \end{cases}
 $$
 
-Onde $\uparrow$ representa o loop infinito.
+Esse predicado é primitivo recursivo, portanto computável. A prova é extensa. Farei algumas definições antes.
 
-### Exemplo de programa
+### Codificando um snapshot
 
-Esse programa
+Snapshot é um par $(i, \sigma)$, onde $i$ é a linha e o $\sigma$ é o estado do programa. Posso transformar esse par numa função de pareamento, onde
 
-```
-V <= V’
-[A]  Y ← 1                    // Inicializa Y como 1, assumindo que V ≤ V'
-[B]  IF V = 0 GOTO E          // Se V é 0, V ≤ V' é verdadeiro para qualquer V'
-     IF V' = 0 GOTO D         // Se V' é 0 e V não é 0, então V > V', seta Y para 0
-     V' ← V' - 1              // Decrementa V'
-     V ← V - 1                // Decrementa V
-     GOTO B                   // Repete até que um dos valores seja completamente decrementado
-[D]  Y ← Y - 1                // Configura Y como 0, pois V > V'
-[E]                           // Continua se V foi 0 e confirma que V ≤ V', Y permanece 1
-```
+$$x = \left<i, \sigma\right>$$
 
-Computa o predicado $V \leq V'$.
+### Capturando valores do programa através de funções primitivas recursivas
 
-## Sua tarefa, estudante de ciência da computação.
+Seja $y$ o código de um programa.
 
-Haja nesse momento como um estudante de ciência da computação. A sua tarefa agora é responder questões envolvendo Teoria da Computação utilizando esses conceitos que lhe passei e os datasets que lhe forneci nesse seu modelo. Antes de responder as questões, use o seu "Searching my knowledge".
+Defino algumas funções:
 
-Geralmente as questões irão envolver provar algo sobre classes ou se algo é primitivo recursivo utilizando composição, recursão ou minimização.
+- $LABEL(i, y) = l((y+1)_i)$: extrai o label da i-ésima linha de $y$, que corresponde ao $a$ da função de pareamento.
 
-## OBSERVAÇÕES IMPORTANTÍSSIMAS:
+- $VAR(i, y) = r(r(y+1)_i) + 1$: extrai a variável da i-ésima linha de $y$, que corresponde ao $c + 1$ da função de pareamento.
 
-Não utilize Maquina de Turing **EM NENHUM MOMENTO!**
+- $INSTR(i, y) = l(r(y+1)_i)$: extrai o tipo de instrução da i-ésima linha de $y$, que corresponde ao $b$ da função de pareamento.
 
-Quando a questão perguntar para provar que uma função é parcialmente computável, mostre um programa que a compute.
+- $LABELIF(i, y) = l(r(y+1)_i)∸2$: extrai o label $L$ da instrução $\text{IF } V \neq 0 \text{ GOTO } L$ da i-ésima linha de $y$. Retorna 0 se não tiver o IF.
 
-Quando a questão perguntar para provar que uma função é computável, mostre um programa que a compute e que nunca entre em loop.
+Para verificar se é possível fazer operações, e sendo $x$ o código do snapshot, defino os predicados:
 
-Quando a questão perguntar para provar que uma função é primitiva recursiva, mostre através de composição e recursão ou minimização (escolher a melhor maneira) de outras funções que já são.
+$$
+INCR(x, y) = \begin{cases} 
+1 & \text{, se } INSTR(l(x), y) = 1 \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Retorno 1 se pode incrementar.
+
+$$
+DECR(x, y) = \begin{cases} 
+1 & \text{, se } [INSTR(l(x), y) = 2] \wedge [p_{var(l(x),y)}|r(x)] \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Retorno 1 se pode decrementar.
+
+$$
+SKIP(x, y) = \begin{cases} 
+1 & \text{, se } [[INSTR(l(x), y) = 0] \wedge [l(x) \leq Lt(y+1)]] \vee [[INSTR(l(x), y) \geq 2]\wedge [\neg(p_{var(l(x),y)}|r(x))]] \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Retorno 1 se é para ignorar a linha.
+
+$$
+BRANCH(x, y) = \begin{cases} 
+1 & \text{, se } [INSTR(l(x), y) > 2] \wedge [p_{VAR(l(x), y)}|r(x)] \wedge [(\exists i)_{\leq Lt(y+1)} LABEL(i, y) = LABELIF(l(x), y)] \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Retorno 1 se dá pra saltar para alguma label. Se a label não existir, retorna 0.
+
+### Funções de execução
+
+**Função sucessor**
+
+$$
+SUCC(x, y) = \begin{cases} 
+\left<l(x) + 1, r(x)\right> & \text{, se } SKIP(x, y) \\
+\left<l(x) + 1, r(x) \cdot p_{VAR(l(x), y)}\right> & \text{, se } INCR(x, y) \\
+\left<l(x) + 1, \left\lfloor r(x) \div p_{VAR(l(x), y)}\right\lfloor \right> & \text{, se } DECR(x, y) \\
+\left<\min_{i \leq Lt(y+1)}[LABEL(i, y) = LABELIF(l(x), y), r(x)]\right> & \text{, se } BRANCH(x, y) \\
+\left<Lt(y+1) + 1, r(x)\right>  & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Essa é a função principal da computação. Ou seja, a materialização do que seria o passo a passo da computação.
+
+**Função de configuração do snapshot inicial**
+
+A computação é impossível sem um estado inicial. Portanto:
+
+$$INITSNAP^{(n)}(x_1,...,x_n) = \left<1, \prod_{i = 1}^{n}(p_{2i})^{x_i}\right>$$
+
+**Função de snapshot atual**
+
+Agora que temos o snapshot inicial, podemos fazer o passo a passo atualizando o snapshot atual:
+
+$$SNAP^{(n)}(x_1,...,x_n, y, 0) = INITSNAP^{(n)}(x_1,...,x_n)$$
+
+$$SNAP^{(n)}(x_1,...,x_n, y, i+1) = SUCC(SNAP^{(n)}(x_1,...,x_n, y, i), y)$$
+
+**Predicado se o programa terminou**
+
+$$
+TERM(x, y) = \begin{cases} 
+1 & \text{, se } l(x) > Lt(y + 1) \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+### Definição: Função STEP - Final
+
+Agora podemos formular a função STEP, que retorna 1 se o programa parou com $i$ passos, ou 0 caso contrário. Ele analisa frame por frame cada passo da computação através do snapshot e verifica se a linha atual do snapshot após $i$ passos é $Lt(y+1)+1$, ou seja, depois da contagem de linhas do programa.
+
+$$
+STP(x_1,...,x_n,y,i) = \begin{cases} 
+1 & \text{, se } TERM(SNAP(x_1,...,x_n,y,i),y) = 1 \\
+0 & \text{, caso contrário.} 
+\end{cases}
+$$
+
+Todas as funções mostradas aqui são primitivas recursivas.
+
+### Definição: Conjunto Recursivamente Enumerável
+
+Um conjunto $B \subseteq \mathbb{N}$ é recursivamente enumerável (abreviação r.e.) se há uma função parcialmente computável $g(x)$ tal que
+
+$$
+g(x) = \begin{cases} 
+\downarrow & \text{, se } x \in B \\
+\uparrow  & \text{, se } x \notin B 
+\end{cases}
+$$
+
+Em outras palavras,
+
+$$B = {x \in \mathbb{N} | g(x)\downarrow}$$
+
+, onde $\uparrow$ significa que o programa entra em loop infinito, e $\downarrow$ significa que o programa para.
+
+### Definição: Conjunto Recursivo (Computável)
+
+Um conjunto $B \subseteq \mathbb{N}$ é recursivo se há uma função computável g(x) tal que
+
+$$
+g(x) = \begin{cases} 
+1 & \text{, se } x \in B \\
+0  & \text{, se } x \notin B 
+\end{cases}
+$$
+
+Eu posso chamar $g(x)$ de **função característica de $B$**, que implementa o predicado *pertence*:
+
+$$
+g(x) = P_B(x) = \begin{cases} 
+1 & \text{, se } x \in B \\
+0  & \text{, se } x \notin B 
+\end{cases}
+$$
