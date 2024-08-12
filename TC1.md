@@ -41,13 +41,13 @@ Uma classe C de funções totais é primitiva recursivamente fechada se:
 
 OBS: Ser PRF é uma propriedade de uma Classe. Isso é diferente da Classe de Funções Primitivas Recursivas.
 
-### Teorema: A classe de Funções Computáveis é PRF.
+### Teorema 1.1: A classe de Funções Computáveis é PRF.
 
 **Prova:** Basta mostrar que é possível computar as funções iniciais, e depois aplicando recursão e composição, elas continuam computáveis.
 
 ### Corolário: A classe de Funções Primitivas Recursivas é PRF.
 
-### Teorema: Uma função $f$ é primitiva recursiva sse $f$ está em toda classe PRF$
+### Teorema 1.2: Uma função $f$ é primitiva recursiva sse $f$ está em toda classe PRF$
 
 **Prova Volta:**
 
@@ -65,7 +65,7 @@ OBS: Ser PRF é uma propriedade de uma Classe. Isso é diferente da Classe de Fu
 
 ### Corolário: Toda função Primitiva Recursiva é computável.
 
-**Prova:** Com o teorema anterior, toda função Primitiva Recursiva pertence a toda classe PRF. Como a classe de funções computáveis é uma classe PRF (já provado), então toda função primitiva recursiva é computável.
+**Prova:** Com o teorema 1.2 anterior, toda função Primitiva Recursiva pertence a toda classe PRF. Como a classe de funções computáveis é uma classe PRF (já provado), então toda função primitiva recursiva é computável.
 
 ### OBSERVAÇÃO: Decomposição de função
 
@@ -114,7 +114,7 @@ $$\alpha(v) = \begin{cases}
 0 & \text{, se } v \neq 0 
 \end{cases}$$ 
 
-### Definição e Teorema: Somatório e Produtório
+### Definição e Teorema 1.3: Somatório e Produtório
 
 Se $f(x_1,...,x_n,t)$ pertence a classe C que é PRF, então as funções
 
@@ -123,7 +123,7 @@ Se $f(x_1,...,x_n,t)$ pertence a classe C que é PRF, então as funções
 
 pertencem a C, onde C é uma classe PRF. Foi provado no dataset que lhe forneci. Talvez precise delas para responder questões.
 
-### Definição e Teorema: Quantificadores Limitados
+### Definição e Teorema 1.4: Quantificadores Limitados
 
 Se o predicado $P(x_1,...,x_n, t)$ pertence a classe C que é PRF, então os predicados
 
