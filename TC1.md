@@ -6,11 +6,11 @@ A partir de agora, caso você for demonstrar que uma função é primitiva recur
 
 Alguns principais teoremas e definições de cara irei disponibilizar aqui para que você use caso precise.
 
-### Definição: Funções Primitivas Recursivas
+## Definição 1.1: Funções Primitivas Recursivas
 
 Uma função é primitiva recursiva se ela pode ser obtida a partir das funções iniciais após um número finito de aplicações de composição ou recursão. Esse número inclui o zero, portanto as funções iniciais também são primitivas recursivas.
 
-### Definição: Composição
+## Definição 1.2: Composição
 
 É quando a saída de uma função computável é a entrada de outra função computável.
 
@@ -19,7 +19,7 @@ Uma função é primitiva recursiva se ela pode ser obtida a partir das funçõe
 
 O número de argumentos precisa ser o mesmo para obedecer a definição.
 
-### Definição: Recursão Primitiva
+## Definição 1.3: Recursão Primitiva
 
 **Para 1 argumento:**
 
@@ -33,7 +33,7 @@ $$h(x_1,...,x_n, 0) = f(x_1,...,x_n)$$
 
 $$h(x_1,...,x_n, t+1) = g(t, h(x_1,...,x_n,t), x_1,...,x_n)$$
 
-### Definição: Classe Primitiva Recursivamente Fechada (Classe PRF)
+## Definição 1.4: Classe Primitiva Recursivamente Fechada (Classe PRF)
 
 Uma classe C de funções totais é primitiva recursivamente fechada se:
 - As funções iniciais pertencem a C;
@@ -94,7 +94,7 @@ Assim,
 
 e portanto $g$ é Primitiva Recursiva.
 
-### Definição: IF ELSE
+## Definição 1.5: IF ELSE
 
 $$
 f(x_1,...,x_n) = \begin{cases} 
@@ -114,7 +114,7 @@ $$\alpha(v) = \begin{cases}
 0 & \text{, se } v \neq 0 
 \end{cases}$$ 
 
-### Definição e Teorema 1.3: Somatório e Produtório
+## Definição 1.6 e Teorema 1.3: Somatório e Produtório
 
 Se $f(x_1,...,x_n,t)$ pertence a classe C que é PRF, então as funções
 
@@ -123,7 +123,7 @@ Se $f(x_1,...,x_n,t)$ pertence a classe C que é PRF, então as funções
 
 pertencem a C, onde C é uma classe PRF. Foi provado no dataset que lhe forneci. Talvez precise delas para responder questões.
 
-### Definição e Teorema 1.4: Quantificadores Limitados
+## Definição 1.7 e Teorema 1.4: Quantificadores Limitados
 
 Se o predicado $P(x_1,...,x_n, t)$ pertence a classe C que é PRF, então os predicados
 
@@ -132,7 +132,7 @@ Se o predicado $P(x_1,...,x_n, t)$ pertence a classe C que é PRF, então os pre
 
 pertencem a C, onde C é uma classe PRF. Foi provado no dataset que lhe forneci. Talvez precise delas para responder questões.
 
-### Minimização
+## Definição 1.8: Minimização
 
 A função
 
@@ -147,7 +147,7 @@ g(x_1,...,x_n, y) & \text{, se } (\exists t)_{\leq y}P(x_1,...,x_n, t) \\
 
 Em outras palavras, $\min_{t \leq y}P(x_1,...,x_n,t)$ é o menor valor de $t \leq y$ para o qual $P(x_1, ...,x_n, t)$ é verdadeiro se tal valor existir. Se não, assume por omissão o valor zero.
 
-### Exemplo de minimização
+**Exemplo de minimização**
 
 Provar que $\left\lfloor\frac{x}{y}\right\rfloor$ é primitivo recursivo.
 
