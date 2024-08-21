@@ -77,7 +77,7 @@ Quando for decompor função, favor usar as funções inicias:
 
 e obedecer o formato das definições de composição e recursão primitiva.
 
-### Exemplo para provar que uma função é primitiva recursiva
+### Exemplo 1.1: provar que uma função é primitiva recursiva
 
 Mostre que a função $g: \mathbb{N}^3 \to \mathbb{N}$ definida da seguinte maneira é primitiva recursiva: $g(x, y, z)$ retorna a quantidade de números inteiros menores ou iguais a $x$ que são múltiplos de ambos $y$ e $z$.
 
