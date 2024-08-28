@@ -1,9 +1,3 @@
-A partir de agora, caso você for demonstrar que uma função é primitiva recursiva, você vai usar diferentes formas:
-
-- Composição
-- Recursão primitiva
-- Minimização
-
 Alguns principais teoremas e definições de cara irei disponibilizar aqui para que você use caso precise.
 
 ## Definição 1.1: Funções Primitivas Recursivas

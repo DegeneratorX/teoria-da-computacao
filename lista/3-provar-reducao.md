@@ -30,6 +30,33 @@ $$A = \{x \in \mathbb{N} \mid \Phi(1,x) \ge 5\}$$
 
 não é recursivo. Para tal, você vai mostrar que $K \leq_m A$, em que $K = \{x \in \mathbb{N} \mid \Phi(x,x)\downarrow\}$.
 
+### Resposta:
+
+Tento reduzir $K \leq_m A$.
+
+Baseado na definição,
+
+$$x \in K \iff f(x) \in A$$
+
+para alguma função computável.
+
+**Etapa do "Se e somente se"**
+
+Faremos de trás para frente a operação de se e somente se.
+
+$f(x_2) \in A \iff \Phi(1, f(x_2)) \ge 5 \iff \Phi(1, S_1^1(x_2, p)) \ge 5 \iff \Phi(1, x_2, p) \ge 5 \iff \forall x_1 \Phi(x_1, x_2, p)\downarrow \iff \Psi_P(x_1, x_2)\downarrow \text{ e } \Psi_P(x_1, x_2) \ge 5 \iff \Phi(x_2, x_2)\downarrow \iff x_2 \in K$
+
+Para que $\Psi_P(x_1, x_2)\downarrow \text{ e } \Psi_P(x_1, x_2) \ge 5 \iff \Phi(x_2, x_2)\downarrow$ faça sentido, eu preciso construir um programa que mostre que isso é verdade.
+
+Seja $\mathcal{P}$ o programa
+
+```
+     Z ← Phi(X2,X2)
+     Y ← Y + 5
+```
+
+Como $K \leq_m A$, temos que $A$ não é recursivo.
+
 ## Questão 5 - 2023.1.2
 
 Utilizando o método da redução, mostre que o conjunto
@@ -51,7 +78,9 @@ Seja $\mathcal{P}$ o seguinte programa de código $p$:
      Z ← Phi(X_1,X_1)
 ```
 
-Temos, pelo teorema do parâemtro e por $p$ ser constente, que:
+**Etapa do "Se e somente se"**
+
+Temos, pelo teorema do parâemtro e por $p$ ser constante, que:
 
 $$\psi_{\mathcal{P}}(x_1,x_2) = \Phi(x_1,x_2,p)=\Phi(x_1,S^1_1(x_2,p))=\Phi(x_1,f(x_2))$$
 

@@ -38,6 +38,51 @@ não é recursivo.
 
 Observação: $\Phi(x-1,x)$ é a função universal, que é parcialmente computável e retorna o que o programa de código $x$ com entrada $x-1$ retorna. Ademais, temos que $\Phi(x-1,x)\downarrow$ significa que o programa de código $x$ com entrada $x-1$ para.
 
+### Resposta:
+
+Suponha por absurdo que $A$ é recursivo. Como $A$ é recursivo, temos que 
+
+$$
+P_A(x) =
+\left\{
+\begin{array}{ll}
+1 & \text{se } x > 0 \wedge \Phi(x-1,x)\downarrow\\
+0 & \text{caso contrário}
+\end{array}
+\right.
+$$
+
+Onde $P_A$ é a função característica de $A$, e $P_A$ é computável.
+
+Considere o programa $\mathcal{P}$, onde $\#(\mathcal{P}) = p$:
+
+```
+    Z ← X + 1
+[A] IF P_A(Z) GOTO A
+```
+
+Iremos mostrar por diagonalização que $\Psi_P$ não está na enumeração de todos os programas computáveis $\Psi_0, \Psi_1, \Psi_2, \ldots$.
+
+$$
+\Psi_{\mathcal{P}}(p-1) =
+\left\{
+\begin{array}{ll}
+0 & \text{se } \neg P_A(p)\\
+\uparrow & \text{se } P_A(p)
+\end{array}
+\right.
+$$
+
+**Caso 1: $\Psi(p-1) = 0$** 
+
+Como $\Psi(p-1) = 0$, temos que $\neg P_A(p) \Rightarrow p \leq 0 \vee \Phi(p-1, p)\uparrow$. Como $p = \#(P)$, temos que $p \neq 0$. Temos também que $\Phi(p-1, p)\uparrow$, porém note que $\Phi(p-1, p) = \Psi_P(p-1) = 0$, um absurdo.
+
+**Caso 2: $\Psi(p-1)\uparrow$**
+
+Como $\Psi(p-1)\uparrow$, temos que $P_A(p) \Rightarrow p > 0 \wedge \Phi(p-1, p)\downarrow$. Em particular, temos que $\Phi(p-1, p)\downarrow = \Psi(p-1)\downarrow$. Um absurdo, pois $\Psi_P(p-1)\uparrow$.
+
+Concluimos então que $P_A$ não é computável, pois $\Psi_P \notin \{\Psi_0, \Psi_1, \Psi_2, \ldots\}$. E como $P_A$ não é computável,temos que $A$ não é recursivo.
+
 ## Questão 4 - 2023.1.2
 
 Numa tentativa de provar por diagonalização que
@@ -65,3 +110,25 @@ $$
 ```
 
 A partir deste programa $\mathcal{P}$, seria possível chegar a um absurdo usando o argumento da diagonalização e com isso, concluir que $B$ não é recursivo? Justifique sua resposta.
+
+### Resposta:
+
+Note que $\#(\mathcal{P}) = p \in B$, uma vez que para cada $n \in \mathbb{N}$, é possível definir uma função parcialmente computável $f_n$ computada por $q$ tal que $W_q$ seja finito ($P_B(q) = 0$). Seja ela
+
+$$
+f_n(x) =
+\left\{
+\begin{array}{ll}
+0 & \text{se } x \leq n\\
+\uparrow & \text{caso contrário}
+\end{array}
+\right.
+$$
+
+E o programa que computa
+
+```
+[A] IF X > n GOTO A
+```
+
+Logo, $\Phi(x, p)$ está definido para uma quantidade infinita de entradas ($W_p$ é infinito). Por outro lado, dada uma enumeração $p_1, p_2, \ldots$ dos programas de $B$, não é possível determinar se $\Psi_P(x)$ difere de cada um deles em pelos menos uma entrada, uma vez que a saída de $\Psi_P(x)$ não é condicionada pelo retorno do programa de código $x$, como tradicionalmente ocorre nas demonstrações por diagonalização.
