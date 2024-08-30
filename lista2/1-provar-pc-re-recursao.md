@@ -200,6 +200,6 @@ Observações:
 
 ## Questão 6 - 2023.1.AF
 
-Determine se o conjunto $A = \{x \in \mathbb{N} \mid W_x \ge 2\}$ é r.e.
+Determine se o conjunto $A = \{x \in \mathbb{N} \mid \left|W_x\right| \ge 2\}$ é r.e.
 
 Observação: $W_x = \{y \in \mathbb{N} \mid \Phi(y, x)\downarrow\}$, ou seja, o conjunto de entradas para as quais o programa de código $x$ está definido.
