@@ -14,6 +14,31 @@ $$A = \{x \in \mathbb{N} \mid \Phi(x,x)\downarrow \wedge \Phi(x,x) > x\}$$
 
 não é recursivo.
 
+### Resposta:
+
+Precisamos mostrar que $K \leq_m A$, ou seja:
+
+$$x \in K \iff f(x) \in A$$
+
+O conjunto $A$ é o conjunto de programas de código $x$ que param com entrada $x$ e que retornam um valor maior que $x$.
+
+**Etapa do "Se e somente se"**
+
+Faremos de trás para frente a operação de se e somente se.
+
+$f(x_2) \in A \iff S_1^1(x_2, p) \in A \iff \Phi(S_1^1(x_2,p),S_1^1(x_2,p))\downarrow \wedge \Phi(S_1^1(x_2,p),S_1^1(x_2,p)) > S_1^1(x_2,p) \iff \forall x_1 (\Phi(x_1,x_2,p)\downarrow \wedge \Phi(x_1,x_2,p) > x_1) \iff \Phi(x_2,x_2)\downarrow \iff x_2 \in K$
+
+Para que $\forall x_1 (\Phi(x_1,x_2,p)\downarrow \wedge \Phi(x_1,x_2,p) > x_1) \iff \Phi(x_2,x_2)\downarrow$ faça sentido, eu preciso construir um programa que mostre que isso é verdade.
+
+Seja $\mathcal{P}$ o programa
+
+```
+     Z ← Phi(X2,X2)
+     Y ← X1 + 1
+```
+
+Como $K \leq_m A$, temos que $A$ não é recursivo.
+
 ## Questão 5 - 2021.1.2
 
 Utilizando o método da redução, mostre que o conjunto

@@ -105,6 +105,62 @@ Observações:
 
 - (b) Nem mesmo a execução em paralelo dos programas $p$ e $q$ seria suficiente para determinar se $x \in A$, visto que nesse caso, $\Phi(x, p) = 0$, o que indica apenas que $x \in A \cup C$. Logo, resta-nos ainda determinar qual deses conjuntos $x$ pertence, de modo que a única possibilidade restante é recorrer a execução de $q$ na esperança de obter mais informações acerta de $x$. No entando, se $x \in A$, então $\Phi(x, q)\uparrow$, e o programa entra em loop infinito.
 
+## Questão 4 - 2021.1.2
+
+Mostre por Diagonalização que o conjunto
+
+$$A = \{x \in \mathbb{N} \mid \Phi(x,x)\downarrow \text{ e } \Phi(x,x) = z \text{, em que } z \text{ é um número par}\}$$
+
+não é recursivo.
+
+### Resposta:
+
+Decifrando $A$: Conjunto de programas para os quais param com entrada sendo o próprio código, e que retornam um número par
+
+Suponha por absurdo que $A$ é recursivo. Então
+
+$$
+P_A(x) =
+\left\{
+\begin{array}{ll}
+1 & \text{se } \Phi(x,x)\downarrow \wedge \Phi(x,x) = z \text{, com z par}\\
+0 & \text{caso contrário}
+\end{array}
+\right.
+$$
+
+A função característica $P_A$ é computável, portanto posso usar como macro de um programa $\mathcal{P'}$:
+
+```
+    IF P_A(X) GOTO A
+    GOTO B
+[A] Y ← 1
+    GOTO E
+[B] Y ← 2
+```
+
+Fazendo $\Psi_{\mathcal{P'}}(x)$, temos dois possíveis resultados
+
+Se $P_A(X) = 1$, $x \in A$, ou seja
+
+- $\Phi(x,x) = \text{par}$ e $\Psi_{\mathcal{P'}}(x) = \text{impar}$
+
+Se $P_A(X) = 0$, $x \notin A$, ou seja
+
+- $\Phi(x,x) = \text{impar}$ e $\Psi_{\mathcal{P'}}(x) = \text{par}$
+
+Só que se eu passo o próprio código de $\mathcal{P'} = p'$ como entrada de $\Psi_{\mathcal{P'}}(p')$:
+
+Se $P_A(p') = 1$, $p' \in A$, ou seja
+
+- $\Phi(p',p') = \text{par}$, mas no programa $\Psi_{\mathcal{P'}}(p') = \text{impar}$
+
+Se $P_A(p') = 0$, $p' \notin A$, ou seja
+
+- $\Phi(p',p') = \text{impar}$, mas no programa $\Psi_{\mathcal{P'}}(p') = \text{par}$
+
+Absurdo. Portanto, $A$ não é recursivo.
+
 ## Questão 5 - 2023.1.1
 
 Prove por diagonalização que o conjunto
@@ -159,6 +215,51 @@ Como $\Psi(p-1) = 0$, temos que $\neg P_A(p) \Rightarrow p \leq 0 \vee \Phi(p-1,
 Como $\Psi(p-1)\uparrow$, temos que $P_A(p) \Rightarrow p > 0 \wedge \Phi(p-1, p)\downarrow$. Em particular, temos que $\Phi(p-1, p)\downarrow = \Psi(p-1)\downarrow$. Um absurdo, pois $\Psi_P(p-1)\uparrow$.
 
 Concluimos então que $P_A$ não é computável, pois $\Psi_P \notin \{\Psi_0, \Psi_1, \Psi_2, \ldots\}$. E como $P_A$ não é computável,temos que $A$ não é recursivo.
+
+### Resposta Alternativa:
+
+Decifrando A: Conj. programas que não são vazios e que param com entrada do próprio código -1.
+
+Por absurdo, suponha $A$ recursivo.
+
+$$
+P_A(x) =
+\left\{
+\begin{array}{ll}
+1 & \text{se } x > 0 \wedge \Phi(x-1,x)\downarrow\\
+0 & \text{caso contrário}
+\end{array}
+\right.
+$$
+
+Posso usar como macro em $\#(P') = p'$
+
+```
+    Z ← X + 1
+[A] IF P_A(Z) GOTO A
+```
+
+Fazendo $\Psi_{\mathcal{P'}}(x)$, temos dois possíveis resultados
+
+Se $P_A(Z) = 1$, $x \in A$, ou seja
+
+- $\Phi(x-1,x)\downarrow \wedge x > 0$, e o programa $\mathcal{P'}$ entra em loop com $\Psi-{\mathcal{P'}}(x-1)$.
+
+Se $P_A(X) = 0$, $x \notin A$, ou seja
+
+- $\Phi(x-1,x)\uparrow \vee x \leq 0$, e o programa $\mathcal{P'}$ para com $\Psi-{\mathcal{P'}}(x-1)$.
+
+Só que se eu passo o próprio código de $\mathcal{P'} = p'$ como entrada de $\Psi_{\mathcal{P'}}(p')$:
+
+Se $P_A(p') = 1$, $p' \in A$, ou seja
+
+- $\Phi(p'-1,p')\downarrow \wedge p' > 0$, mas $\mathcal{P'}$ entra em loop com $\Psi-{\mathcal{P'}}(p'-1)$.
+
+Se $P_A(p') = 0$, $p' \notin A$, ou seja
+
+- $\Phi(p'-1,p')\uparrow \vee x \leq 0$, mas $\mathcal{P'}$ para com $\Psi-{\mathcal{P'}}(x-1)$.
+
+Absurdo. Portanto, essa função $\Psi_{\mathcal{P'}}$ não está na lista de programas, e portanto não é recursivo.
 
 ## Questão 4 - 2023.1.2
 
