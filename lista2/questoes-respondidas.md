@@ -509,7 +509,7 @@ Observação: antes de aplicar o Teorema de Rice, o mais importante nesta quest�
 
 ### Resposta:
 
-$$\Gamma = \{f(x) \mid f \text{ é parcialmente computável e } Dom(x) \text{ é um conjunto recursivo}\}$$
+$$\Gamma = \{f(x) \mid f \text{ é parcialmente computável e } Dom(f) \text{ é um conjunto recursivo}\}$$
 
 Um exemplo de $g(x)$ que pertence a $\Gamma$ é 
 
