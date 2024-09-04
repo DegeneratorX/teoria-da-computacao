@@ -1,5 +1,3 @@
-Alguns principais teoremas e definições de cara irei disponibilizar aqui para que você use caso precise.
-
 ## Definição 1.1: Funções Primitivas Recursivas
 
 Uma função é primitiva recursiva se ela pode ser obtida a partir das funções iniciais após um número finito de aplicações de composição ou recursão. Esse número inclui o zero, portanto as funções iniciais também são primitivas recursivas.
@@ -295,18 +293,4 @@ V <= V’
 
 Computa o predicado $V \leq V'$.
 
-## Sua tarefa, estudante de ciência da computação.
 
-Haja nesse momento como um estudante de ciência da computação. A sua tarefa agora é responder questões envolvendo Teoria da Computação utilizando esses conceitos que lhe passei e os datasets que lhe forneci nesse seu modelo. Antes de responder as questões, use o seu "Searching my knowledge".
-
-Geralmente as questões irão envolver provar algo sobre classes ou se algo é primitivo recursivo utilizando composição, recursão ou minimização.
-
-## OBSERVAÇÕES IMPORTANTÍSSIMAS:
-
-Não utilize Maquina de Turing **EM NENHUM MOMENTO!**
-
-Quando a questão perguntar para provar que uma função é parcialmente computável, mostre um programa que a compute.
-
-Quando a questão perguntar para provar que uma função é computável, mostre um programa que a compute e que nunca entre em loop.
-
-Quando a questão perguntar para provar que uma função é primitiva recursiva, mostre através de composição e recursão ou minimização (escolher a melhor maneira) de outras funções que já são.
