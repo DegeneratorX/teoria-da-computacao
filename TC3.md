@@ -752,3 +752,331 @@ O não determinismo ocorre em $q_1$.
 -$NB \rightarrow G_2 \rightarrow NB \rightarrow G_2 \rightarrow PB \rightarrow MULT \rightarrow PB \rightarrow EQUAL$
 
 A $MULT$ é uma multiplicação $\Delta w_1 \Delta w_2 \Delta \ldots \rightarrow \Delta w_1 \cdot w_2 \Delta \ldots$.
+
+## Definição 6.1: Gramática Irrestrita
+
+DEFINIÇÃO 1: A gramática é definida como uma 4-tupla $G = (V, \Sigma, S, P)$ tal que
+
+- $V$: Conjunto não vazio de variáveis
+- $\Sigma$: Conjunto não vazios de símbolos terminais
+- $S \in V$: Variável inicial
+- $P$: Conjunto finito de regras do tipo $\alpha \rightarrow \beta$
+
+em que $\alpha, \beta \in (V \cup \Sigma)^*$, e $\alpha$ contém pelo menos uma variável.
+
+Basicamente a gramática é uma geradora de entradas para uma linguagem. Ela por si só não possui entradas. Ou seja, uma gramática é uma geradora de linguagens.
+
+Além disso, a gramática possui um conjunto de regras que limitam a geração de palavras para uma linguagem $L$ apenas. Se as palavras que ela geram estão em $L$, então diz que a gramática gera $L$. Se ela gerar alguma palavra que não está em $L$, então a gramática não gera $L$.
+
+
+**Hierarquia de Chomsky:**
+|Gramática $\xrightarrow{\text{gera}}$|Linguagem $\xrightarrow{\text{reconhecida}}$|Reconhecedor|
+|-------------|----------|----------|
+| Irrestrita | r.e. ou Recursiva | Máquinas de Turing |
+| Sensível ao Contexto | Sensível ao Contexto | Máquinas de Turing com Fita Finita |
+| Livre de Contexto | Livre de Contexto | Autômatos de Pilha |
+| Regular | Regular | Autômatos Finitos |
+
+## Definição 6.2: Linguagem Gerada por $G$
+
+A linguagem gerada por uma gramática $G = (V, \Sigma, S, P)$ é definida como
+
+$$L(G) = \{x \in \Sigma^* \mid S \Rightarrow^*_G x\}$$
+
+## Definição 6.3: Derivação
+
+Suponha duas strings $\alpha$ e $\beta$. A notação $\alpha \Rightarrow^* \beta$ significa que a string $\alpha$ gerou a string $\beta$ em 0, 1 ou mais passos. Ou seja, $\beta$ deriva de $\alpha$.
+
+### Exemplo 6.1: Suponha $\alpha = aSa$ e $\beta = aaaSaaa$. E suponha que $S \rightarrow aSa$ é a regra que eu acabei de criar que diz que a letra $S$ pode ser trocada por $aSa$.
+
+Então $aSa \Rightarrow aaSaa \Rightarrow aaaSaaa$
+
+A ideia por trás dessa resposta acima é pegar um padrão $S$ e trocar por $aSa$ de forma recursiva. Veja:
+
+$$S \Rightarrow aSa \Rightarrow a[aSa]a \Rightarrow aa[aSa]aa \Rightarrow \ldots$$
+
+Ou seja, $aaaSaaa$ deriva de $aSa$. E portanto $\alpha \Rightarrow^* \beta$.
+
+## Definição 6.4: Passo a Paso para criar um conjunto de regras para gerar uma linguagem $L$
+
+Dada uma linguagem $L$, se nós quisermos criar uma gramática $G$ que gera $L$, precisamos nós mesmos definirmos uma série de regras $P$ que nós iremos usar para gerar todas as palavras que estão em $L$, e tomar muito cuidado para evitar que que se crie regras que possam gerar palavras que não estão em $L$, pois se isso acontecer, a gramática já não mais gera $L$, e será preciso ajustar as regras.
+
+Passo 1: é preciso criar as regras que geram a quantidade pedida de 
+caracteres que a linguagem L restringe;
+
+Passo 2: Criar as regras de ordenação;
+
+Passo 3: Instanciar TODOS os caracteres faltantes para finalmente
+criar a string final que pertença a linguagem L. 
+
+Passo 4 (extra): Faço outros exemplos que mostram que as regras criadas
+realmente restringem a geração de palavras para aquela linguagem.
+
+Aqui está a conversão para texto em formato Markdown, incluindo o uso de LaTeX para os símbolos matemáticos:
+
+## Definição 6.5: Passo a Passo para criar um conjunto de regras para gerar uma linguagem $L$
+
+Dada uma linguagem $L$, se nós quisermos criar uma gramática $G$ que gera $L$, precisamos nós mesmos definirmos uma série de regras $P$ que nós iremos usar para gerar todas as palavras que estão em $L$, e tomar muito cuidado para evitar que se crie regras que possam gerar palavras que não estão em $L$, pois se isso acontecer, a gramática já não mais gera $L$, e será preciso ajustar as regras.
+
+**Passo 1**:
+
+É preciso criar as regras que geram a quantidade pedida de caracteres que a linguagem $L$ restringe.
+
+**Passo 2**:
+
+Criar as regras de ordenação.
+
+**Passo 3**:
+
+Instanciar **TODOS** os caracteres faltantes para finalmente criar a string final que pertença à linguagem $L$.
+
+**Passo 4 (extra)**:
+
+Faça outros exemplos que mostram que as regras criadas realmente restringem a geração de palavras para aquela linguagem.
+
+### Exemplo 6.2: Encontre uma gramática irrestrita que gere a linguagem $L = \{ a^n b^n c^n \mid n \geq 0 \}$
+
+**Passo 1**:
+
+Gerar a quantidade pedida, que é "n" para cada caractere. Porém, a palavra vazia também é inclusa, pois "n" pode ser 0. Portanto, construo as seguintes regras:
+
+- $S \rightarrow \epsilon \quad \text{(para } n = 0)$
+- $S \rightarrow LTR \quad \text{(3 auxiliares)}$
+- $T \rightarrow ABC \quad \text{(3 auxiliares)}$
+- $LTR \rightarrow LABCR4$
+- $LABCR \rightarrow LABCABCR$
+- $LABCABCR \rightarrow LABCABCABCR$
+
+Essas regras me permitem gerar o seguinte exemplo:
+
+$$S \Rightarrow LTR \Rightarrow LABCTR \Rightarrow LABCABCTR \Rightarrow LABCABCABCR$$
+
+Veja que aqui usei 3 regras. Todas exceto a regra $S \rightarrow \epsilon$.
+
+Perceba que se esse é um exemplo que é aplicado para $n = 3$, que também pode ser usado o mesmo método para qualquer $n > 1$. Se eu quero de cara $n = 1$, eu uso apenas 2 das 4 regras:
+
+$$S \Rightarrow LTR \Rightarrow LABCR$$
+
+E se eu quero para $n = 0$, basta aplicar
+
+$$S \Rightarrow \epsilon$$
+
+Veja que por enquanto só existe auxiliar, e o único caso que já achamos de palavra que está em $L$ é o do $S \Rightarrow e$.
+
+**Passo 2**:
+
+Preciso criar as regras de ordenação. Veja que todos os casos que geramos para $n > 0$, a ordenação dos auxiliares fica:
+
+$$ABCABC \ldots ABC \quad (n > 0)$$
+
+Porém, para \( n = 3 \) como no exemplo [1], precisamos que a string esteja já preparada na ordem $AAABBBCCC$. Então as regras de ordenação são:
+
+$$BA \rightarrow AB \quad CA \rightarrow AC \quad CB \rightarrow BC$$
+
+Então eu poderia voltar a derivar o exemplo [1] utilizando as regras acima:
+
+
+$$LABCABCABCR \Rightarrow L AB AC BC AB CR \Rightarrow LAABCBCABCR \Rightarrow LAABBCCABCR \Rightarrow^* LAAABBCCBCR \Rightarrow^* LAABBBCCCR$$
+
+
+Veja que ainda só tem variável (letras maiúsculas). A ideia é fazer a linguagem $L$ checar a string. Ela espera encontrar um $A$. Se ela não encontrar $A$, então a string está desorganizada.
+
+Enquanto tiver variável, eu estou tranquilo, ainda dá para derivar. O perigo é perder a variável antes da hora. Esse deve ser o último passo. Se tiver em outro padrão, pode haver o risco de gerar outra linguagem.
+
+**Passo 3**:
+
+Instanciar o que resta. Para isso, preciso criar regras de instanciação.
+
+#### $LA \rightarrow aL$:
+
+$aLAABBBCCCR$. Perceba que essa regra é como se fosse a letra $L$ percorrendo a string.
+
+$aaaLBBBCCCR$. Se $L$ encontrar um $B$, os $A$s acabaram. Então ocorre a leitura de $B$s e **não posso encontrar $A$'s mais**!!!
+
+#### $LB \rightarrow bM$:
+
+Não uso mais $L$, pois se não ele pode ignorar "A"s que podem aparecer, pela regra da gramática $LA \rightarrow aL \cdot A$. Crio um M auxiliar. $aaaLBBBCCCR \rightarrow aaabMBBCCCR$.
+
+#### $MB \rightarrow bM$:
+
+- $aaabMBBCCCR \rightarrow aaabbMBCCCR \rightarrow aaabbbMCCCR
+
+#### $MC \rightarrow cN$:
+
+- $aaabbbMCCC \rightarrow aaabbbcNCCr \rightarrow aaabbbccNCR
+
+#### $NC \rightarrow cN$:
+
+- $aaabbbccNCR \rightarrow aaabbbcccNR$.
+
+Aqui ainda não está derivado. Por enquanto está $aaabbbcccNR$. Enquanto eu tiver variável, ainda estou seguro. Veja que $N$ e $R$ ainda são variáveis. Se $N$ detecta $R$, então está tudo ok.
+
+Apenas preciso criar uma regra que vai se livrar desses dois juntos.
+
+#### $NR \rightarrow \epsilon$:
+
+$aaabbbcccNR \rightarrow aaabbbccc \in L$.
+
+Nesse momento, derivei $a^3 b^3 c^3$.
+
+Observe que para qualquer $n$ maior ou igual a zero, eu posso construir strings desse tipo utilizando as regras do passo 1, 2 e 3, que pertencem à $L$.
+
+
+### Exemplo 6.3: Mostre que essa gramática irrestrita abaixo não gera a linguagem $L = \{ a^n b^n c^n | n \geq 0 \}$.
+
+- $S \rightarrow \epsilon$
+- $S \rightarrow T$
+- $T \rightarrow ABC$
+- $T \rightarrow ABCT$
+- $BA \rightarrow AB$
+- $CB \rightarrow BC$
+- $CA \rightarrow AC$
+- $A \rightarrow A$
+- $B \rightarrow b$
+- $C \rightarrow c$
+
+
+Para mostrar isso, basta eu mostrar um caso de string formado por essa gramática que, ao instanciar todas as variáveis auxiliares, essa string não pertence a $L$.
+
+- $S \rightarrow T \rightarrow^* ABCABC \rightarrow^* AABBCC \rightarrow^* aaabbcc$. OK!
+
+- $S \rightarrow T \rightarrow^* ABCABC \rightarrow^* abcabc \notin L$.
+
+Mostrei um caso que sim, pode uma string estar em $L$ com as regras, mas se as mesmas regras geram uma string no passo 3 que não está em $L$, então a gramática não gera $L$.
+
+### Resumindo
+
+Eu crio regras bem restritivas e ponho numa espécie de mesa, sempre cuidando para que essas regras **não gerem strings fora da linguagem pedida**.
+
+Pegando o Exemplo 6.2, é como se eu tivesse as seguintes mesas:
+
+#### Gerar:
+- $S \rightarrow e$
+- $S \rightarrow LTR$
+- $T \rightarrow ABCT$
+- $T \rightarrow ABC$
+
+#### Ordenar:
+- $BA \rightarrow AB$
+- $CB \rightarrow BC$
+- $CA \rightarrow AC$
+
+#### Instanciar:
+- $LA \rightarrow aL$
+- $LB \rightarrow bM$
+- $MB \rightarrow bM$
+- $MC \rightarrow cN$
+- $NC \rightarrow cN$
+- $NR \rightarrow \epsilon$
+
+
+Essas operações são como um conjunto de ferramentas que eu posso usar para realizar uma obra. Porém, eu preciso que o produto final seja conforme o cliente pede, que é análogo ao conjunto de regras da linguagem. Se a string não pertencer à linguagem, isso é análogo a dizer que as ferramentas permitiram uma obra totalmente diferente do que o cliente pediu que fosse construída.
+
+Essa analogia também pode ser feita com self-service. O cliente se dispõe de várias opções de comida, porém, nas "n" combinações de prato que se pode fazer utilizando as opções de self-service, existe pelo menos um prato que não agrada o paladar dele, e isso é análogo às regras da linguagem.
+
+Um truque para restringir bem essas regras é não permitir que haja combinações de operações que podem levar a uma string que não pertence à linguagem no passo 3 e utilizando variáveis auxiliares no passo 1.
+
+---
+
+### Exemplo 6.4: Encontre uma gramática irrestrita que gere a linguagem $L = \{ x \in \{a, b, c\}^* \mid n_a(x) = n_b(x) = n_c(x)\}$, onde $n_{\sigma}(x)$ é a função "número de $\sigma$ na palavra.
+
+$$
+S \rightarrow e
+$$
+$$
+S \rightarrow ABCS
+$$
+$$
+S \rightarrow ABC
+$$
+
+Essas operações acima podem ser resumidas em
+
+$$S \rightarrow ABC \mid ABCS \mid \epsilon$$
+
+$$
+BA \rightarrow AB
+$$
+$$
+CA \rightarrow AC
+$$
+$$
+CB \rightarrow BC
+$$
+$$
+AC \rightarrow CA
+$$
+$$
+AB \rightarrow BA
+$$
+$$
+BC \rightarrow CB
+$$
+$$
+A \rightarrow a
+$$
+$$
+B \rightarrow b
+$$
+$$
+C \rightarrow c
+$$
+
+Normalmente, se a linguagem tem restrições de ordem, é interessante mexer no passo 2, restringindo a criação de operações de ordem e usando variáveis de "guardar".
+
+### Exemplo 6.5: Dada as instruções
+
+$$
+S \rightarrow LaR
+$$
+$$
+L \rightarrow LD
+$$
+$$
+Da \rightarrow aaD
+$$
+$$
+DR \rightarrow R
+$$
+$$
+L \rightarrow \epsilon
+$$
+$$
+R \rightarrow \epsilon
+$$
+
+---
+
+Que linguagem, para $\Sigma = \{ a\}$, a gramática está gerando?
+
+A ideia é fazer testes, mesmo que os primeiros não sejam suficientes para dizer o que ela faz.
+
+
+- $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow a$. Isso não me diz muita coisa. Faço outro teste.
+
+
+- $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow DoR \Rightarrow aaDR \Rightarrow aaR \Rightarrow aa$
+
+Faço outro teste:
+
+---
+
+$$
+S \Rightarrow LaR \Rightarrow LDaR \Rightarrow LDDaR \Rightarrow DDaR \Rightarrow aaDDaR \Rightarrow aaDaR \Rightarrow aa
+$$
+
+E outro:
+
+---
+
+$$
+S \Rightarrow LaR \Rightarrow^* LDDDaR \Rightarrow DDDaR \Rightarrow DDaR \Rightarrow aaDDDaR \Rightarrow aaaDR \Rightarrow aaR \Rightarrow aa
+$$
+
+$$
+L = \Sigma a^{2^n} | n \geq 0
+$$
+
+---
+
+Agora todos os símbolos LaTeX estão entre cifrões corretamente. Isso garantirá que o formato seja exibido conforme o esperado.
