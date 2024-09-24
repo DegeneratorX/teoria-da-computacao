@@ -1,3 +1,5 @@
+# Parte 3.1: Máquinas de Turing
+
 ## Definição 5.1: Máquina de Turing
 
 Uma Máquina de Turing (MT) é definida da seguinte forma:
@@ -753,6 +755,8 @@ O não determinismo ocorre em $q_1$.
 
 A $MULT$ é uma multiplicação $\Delta w_1 \Delta w_2 \Delta \ldots \rightarrow \Delta w_1 \cdot w_2 \Delta \ldots$.
 
+# Parte 3.2: Gramáticas
+
 ## Definição 6.1: Gramática Irrestrita
 
 DEFINIÇÃO 1: A gramática é definida como uma 4-tupla $G = (V, \Sigma, S, P)$ tal que
@@ -980,72 +984,34 @@ Um truque para restringir bem essas regras é não permitir que haja combinaçõ
 
 ### Exemplo 6.4: Encontre uma gramática irrestrita que gere a linguagem $L = \{ x \in \{a, b, c\}^* \mid n_a(x) = n_b(x) = n_c(x)\}$, onde $n_{\sigma}(x)$ é a função "número de $\sigma$ na palavra.
 
-$$
-S \rightarrow e
-$$
-$$
-S \rightarrow ABCS
-$$
-$$
-S \rightarrow ABC
-$$
+- $S \rightarrow e$
+- $S \rightarrow ABCS$
+- $S \rightarrow ABC$
 
 Essas operações acima podem ser resumidas em
 
-$$S \rightarrow ABC \mid ABCS \mid \epsilon$$
+- $S \rightarrow ABC \mid ABCS \mid \epsilon$
 
-$$
-BA \rightarrow AB
-$$
-$$
-CA \rightarrow AC
-$$
-$$
-CB \rightarrow BC
-$$
-$$
-AC \rightarrow CA
-$$
-$$
-AB \rightarrow BA
-$$
-$$
-BC \rightarrow CB
-$$
-$$
-A \rightarrow a
-$$
-$$
-B \rightarrow b
-$$
-$$
-C \rightarrow c
-$$
+- BA \rightarrow AB
+- CA \rightarrow AC
+- CB \rightarrow BC
+- AC \rightarrow CA
+- AB \rightarrow BA
+- BC \rightarrow CB
+- A \rightarrow a
+- B \rightarrow b
+- C \rightarrow c
 
 Normalmente, se a linguagem tem restrições de ordem, é interessante mexer no passo 2, restringindo a criação de operações de ordem e usando variáveis de "guardar".
 
 ### Exemplo 6.5: Dada as instruções
 
-$$
-S \rightarrow LaR
-$$
-$$
-L \rightarrow LD
-$$
-$$
-Da \rightarrow aaD
-$$
-$$
-DR \rightarrow R
-$$
-$$
-L \rightarrow \epsilon
-$$
-$$
-R \rightarrow \epsilon
-$$
-
----
+- $S \rightarrow LaR$
+- $L \rightarrow LD$
+- $Da \rightarrow aaD$
+- $DR \rightarrow R$
+- $L \rightarrow \epsilon$
+- $R \rightarrow \epsilon$
 
 Que linguagem, para $\Sigma = \{ a\}$, a gramática está gerando?
 
@@ -1054,29 +1020,365 @@ A ideia é fazer testes, mesmo que os primeiros não sejam suficientes para dize
 
 - $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow a$. Isso não me diz muita coisa. Faço outro teste.
 
+- $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow DaR \Rightarrow aaDR \Rightarrow aaR \Rightarrow aa$. Faço outro teste.
 
-- $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow DoR \Rightarrow aaDR \Rightarrow aaR \Rightarrow aa$
+- $S \Rightarrow LaR \Rightarrow LDaR \Rightarrow LDDaR \Rightarrow DDaR \Rightarrow DaaDR \Rightarrow DaaR \Rightarrow aaDaR \Rightarrow aaaaDR \Rightarrow aaaaR \Rightarrow aaaa$.
 
-Faço outro teste:
+E por fim o último teste:
 
----
+
+- $S \Rightarrow LaR \Rightarrow^* LDDDaR \Rightarrow DDDaR \Rightarrow DDaaDR \Rightarrow DDaaR \Rightarrow DaaDaR \Rightarrow DaaaaDR \Rightarrow DaaaaR \Rightarrow aaDaaaR \Rightarrow aaaaDaaR \Rightarrow^* aaaaaaaaDR \Rightarrow a^8R \Rightarrow a^8$.
+
+A linguagem aparenta seguir essa regra:
+
+$$L = \{\Sigma a^{2^n} \mid n \geq 0\}$$
+
+Peço desculpas pela confusão anterior. Agora ajustei corretamente o formato, adicionando os cifrões ao redor dos símbolos matemáticos. Aqui está o texto com os **cifrões**:
+
+### Exemplo 6.6: Encontre uma Gramática Irrestrita que gere a linguagem $L = \{ ww \mid w \in \{ a, b \}^* \}$.
+
+**Passo 1:**
+
+- $S \rightarrow LTR$
+- $T \rightarrow AaT \mid BbT \mid \epsilon$
+
+**Passo 2:**
+
+- $aA \rightarrow Aa$
+- $aB \rightarrow Ba$
+- $bA \rightarrow Ab$
+- $bB \rightarrow Bb$
+- $aR \rightarrow Ra$
+- $bR \rightarrow Rb$
+
+**Passo 3:**
+
+- $LA \rightarrow aL$
+- $LB \rightarrow bL$
+- $LR \rightarrow \epsilon$
+
+
+**Exemplo:**
+
+- $S \Rightarrow LTR \Rightarrow LAaTR \Rightarrow LAaBbTR \Rightarrow^* LAaBbAaR \Rightarrow LABabAaR \Rightarrow^* LABAabaR \Rightarrow LABAabRa \Rightarrow^* LABARaba \Rightarrow aLBARaba \Rightarrow abLARaba \Rightarrow abaLRaba \Rightarrow abaaba$
+
+Aqui está o conteúdo do quadro convertido para texto em formato Markdown com os símbolos LaTeX corretamente cercados por cifrões:
+
+## Definição 7.1: Gramática Sensível ao Contexto
+
+Uma Gramática Sensível ao Contexto (GSC) é uma Gramática Irrestrita (GI), onde toda regra é da forma $\alpha \rightarrow \beta$, porém com uma restrição a mais:
+
+$$\left| \alpha \right| \leq \left| \beta \right|$$
+
+Ou seja, não podem haver operações na intenção de diminuir a string.
+
+Isso faz com que operações do tipo $\alpha \rightarrow \epsilon$ simplesmente sejam proibidas em uma GSC.
+
+A GSC gera strings que normalmente estarão em linguagens recursivas, pois uma Máquina de Turing (MT) com fita finita é o mais análogo ao que possuímos no mundo real da computação. Já as GI geram strings que podem estar em linguagens r.e..
+
+Os passos para criar as operações de uma GSC são os mesmos, mas agora é preciso ficar atento para não criar operações que possam reduzir a string em pelo menos 1 caractere.
+
+### Exemplo 7.1: Encontre uma GSC que gere a seguinte linguagem $L = \{ a^n b^n c^n | n \geq 1 \}$.
+
+Primeiro farei regras para uma GI
+
+**Passo 1:**
+
+- $S \rightarrow SABC \mid LABC$
+
+**Passo 2:**
+
+- $BA \rightarrow AB$
+- $CB \rightarrow BC$
+- $CA \rightarrow AC$
+
+**Passo 3:**
+
+- $LA \rightarrow a$ $[1]$
+
+- $aA \rightarrow aa$
+- $aB \rightarrow ab$
+- $bB \rightarrow bb$
+- $bC \rightarrow bc$
+- $cC \rightarrow cc$
+
+Perceba que na GSC eu não posso ter essa regra em $[1]$.
+
+Para resolver isso, removo $[1]$ e adiciono:
+
+- $S \rightarrow abc$
+- $LA \rightarrow aABC$
+
+ao conjunto de regras.
+
+### Exemplo 7.2: Encontre uma GSC que gere a linguagem $L = \{\Sigma a^{2^k} \mid k \in \mathbb{N}\}$.
+
+**GI:**
+
+- $S \rightarrow LaR$
+- $L \rightarrow LD$
+- $Da \rightarrow aaD$
+- $DR \rightarrow R$ $[1]$
+- $L \rightarrow \epsilon$ $[2]$
+- $R \rightarrow \epsilon$ $[3]$
+
+Essas regras $[1], [2], [3]$ **não são permitidas** em uma GSC.
+
+**GSC (retirando as regras que não podem e adicionando novas para gerar $L$ dentro do contexto da gramática sensível):**
+
+- $S \rightarrow LaR \mid a \mid aa$
+- $L \rightarrow LD$
+- $Da \rightarrow aaD$
+
+- $\sout{DR \rightarrow R}$
+- $\sout{L \rightarrow \epsilon}$
+- $\sout{R \rightarrow \epsilon}$
+
+- $DaR \rightarrow aaR$
+- $L \rightarrow D$
+- $DaaR \rightarrow aaaa$
+
+### Teorema 7.1: Para toda GI, há uma MT $M$ tal que $L(M) = L(G)$.
+
+**Prova:** 
+
+Construir uma MT não determinística $M$, cujo alfabeto da fita vai conter todas as variáveis e símbolos terminais de $G$ (e possivelmente outros símbolos).
+
+**Passo 1:**
+
+Na fita $\underline{\Delta} x$, vá para $\Delta x \Delta \underline{S} \Delta \ldots$
+
+**Passo 2:**
+
+A máquina $M$, nessa fita, vai simular não deterministicamente a execução de $G$:
+
+- Escolha não deterministicamente uma regra $\alpha \rightarrow \beta$ em $G$.
+- Escolha uma ocorrência de $\alpha$ na fita (se houver).
+- Troque essa ocorrência por $\beta$ (se $\left| \alpha \right| \neq \left| \beta \right|$, será preciso mover a string após $\alpha$ à direita ou à esquerda).
+- Esse processo continua até não ser possível aplicar mais regras.
+
+**Passo 3:**
+
+Se a configuração resultante for do tipo $\Delta x \Delta y \underline{\Delta} \ldots$, em que $y \in L(G)$, vá até a configuração $\underline{\Delta} x \Delta y \Delta \ldots$.
+
+Compare a string $x$ com $y$. $M$ aceita $x$ se e somente se $x = y$.
+
+### Teorema 7.2: Para toda MT $M$, há uma GI tal que $L(G) = L(M)$
+
+**Prova:**
+
+Esse é o caminho inverso, que fecha os dois teoremas sobre as gramáticas e máquinas serem equivalentes computacionalmente. A prova é extensa, portanto deixo como exercício.
+
+# Parte 3.3: Hierarquia Aritimética
+
+## Definição 8.1: Hierarquia Aritimética
+
+Na lógica matemática, a hierarquia aritmética classifica conjuntos baseado na complexidade das fórmulas lógicas que as define. Qualquer conjunto que recebe uma classificação na hierarquia é chamado de conjunto aritmético.
+
+A classificação ocorre em diferentes níveis de classe.
+
+### Classe Sigma:
 
 $$
-S \Rightarrow LaR \Rightarrow LDaR \Rightarrow LDDaR \Rightarrow DDaR \Rightarrow aaDDaR \Rightarrow aaDaR \Rightarrow aa
+\Sigma_0, \Sigma_1, \Sigma_2, \Sigma_3, \dots
 $$
 
-E outro:
-
----
+### Classe Pi:
 
 $$
-S \Rightarrow LaR \Rightarrow^* LDDDaR \Rightarrow DDDaR \Rightarrow DDaR \Rightarrow aaDDDaR \Rightarrow aaaDR \Rightarrow aaR \Rightarrow aa
+\Pi_0, \Pi_1, \Pi_2, \Pi_3, \dots
 $$
 
+### Divisão de hierarquias
+
+As classes $\Sigma$ são definidas da seguinte forma:
+
+$- \Sigma_0 : A \in \Sigma_0 \iff A \text{ é recursivo } \iff P_A(x) \text{ é computável}$
+
+$- \Sigma_1 : A \in \Sigma_1 \iff \exists t \underbrace{P(x,t)}_{computável} \iff x \in A$
+
+$- \Sigma_2 : A \in \Sigma_2 \iff \exists t_1 \forall t_2 \underbrace{P(x, t_1, t_2)}_{computável} \iff x \in A$
+
+$- \Sigma_3 : A \in \Sigma_3 \iff \exists t_1 \forall t_2 \exists t_3 \, \underbrace{P(x, t_1, t_2, t_3)}_{computável} \iff x \in A$
+
+...
+
+
+As classes $\Pi$ são definidas da seguinte forma:
+
+- $\Pi_0 : A \in \Pi_0 = \Sigma_0 \iff A \, \text{ é recursivo } \iff P_A(x) \text{ é computável}$
+
+- $\Pi_1 : A \in \Pi_1 \iff \forall t \, \underbrace{P(x,t)}_{computável} \iff x \in A$
+
+- $\Pi_2 : A \in \Pi_2 \iff \forall t_1 \exists t_2 \, \underbrace{P(x, t_1, t_2)}_{computável} \iff x \in A$
+
+- $\Pi_3 : A \in \Pi_3 \iff \forall t_1 \exists t_2 \forall t_3 \, \underbrace{P(x, t_1, t_2, t_3)}_{computável} \iff x \in A$
+
+...
+
+
+Onde $\Sigma_i$ e $\Pi_i$ são conjuntos de conjuntos, e a classe $\Delta_i$ é definida como a interseção $\Sigma_i \cap \Pi_i$.
+
+A tabela dos níveis hierárquicos é feita da seguinte forma:
+
+| Classe   | Nível de Problema | Exemplos/Relevância |
+|----------|-------------------|---------------------|
+| $\Sigma_4$ | Problemas acima da compreensão humana | -  |
+| $\Sigma_3$ | Problemas complexos | $CoF$ |
+| $\Sigma_2$ | Problemas não computáveis | $FIN, \overline{TOT}, HALT(x,x)$ |
+| $\Sigma_1$ | Conjuntos r.e.  | $K, W_x$  |
+| $\Sigma_0 = \Delta_0 = \Delta_1 = \Pi_0$ | Conjuntos recursivos | $PRIMO, PALIND \text{ (}w=w^R\text{)}, PAR, \text{ predicados computáveis}$ |
+
+| Classe   | Nível de Problema | Exemplos/Relevância |
+|----------|-------------------|---------------------|
+| $\Pi_4$ | Problemas acima da compreensão humana | -  |
+| $\Pi_3$ | Problemas complexos | $\overline{CoF}$ |
+| $\Pi_2$ | Problemas não computáveis | $INF, TOT, \neg HALT(x,x)$ |
+| $\Pi_1$ | Conjuntos r.e.  | $\overline{K}, \overline{W_x}$ |
+| $\Pi_0 = \Delta_0 = \Delta_1 = \Sigma_0$ | Conjuntos recursivos | $PRIMO, PALIND \text{ (}w=w^R\text{)}, PAR, \text{ predicados computáveis}$ |
+
+para todo 
+
+- $\Sigma_i \subseteq \Sigma_{i+1}$
+
+- $\Pi_i \subseteq \Pi_{i+1}$
+
+- $\Pi_i \subseteq \Sigma_{i+1}$
+
+- $\Sigma_i \subseteq \Pi_{i+1}$
+
+Ou seja, se eu pegar a classe $\Sigma_2$, por exemplo, tudo abaixo dela está contido: $\Sigma_0 \subseteq \Sigma_1 \subseteq \Sigma_2\$, $\Pi_0 \subseteq \Pi_1 \subseteq \Sigma_2$, e portanto $\Delta_0 = \Delta_1 \subseteq \Delta_2 \subseteq \Sigma_2$.
+
+Veja também que $\Sigma_1$ e $\Pi_1$ são r.e., e a interseção é $\Delta_1$, que contém a classe de conjuntos recursivos. Isso é justamente o Teorema 3.3, onde se $A$ e $\bar{A}$ são r.e., então $A$ é recursivo (provado pela técnica dovetailing).
+
+
+Para saber em qual classe um conjunto está, basta analisar os quantificadores.
+
+- Se começar com $\exists$, está em $\Sigma$.
+- Se começar com $\forall$, está em $\Pi$.
+
+### Exemplo 8.1:
+
+- $\underline{\forall}x_1 \exists x_2 \forall x_3 \exists x_4 \forall x_5 P(x_1, \ldots, x_5) \rightarrow \text{CLASSE } \Pi_5$
+
+- $\underline{\exists}x_1 \forall x_2 \exists x_3 \forall x_4 \exists x_5 P(x_1, \ldots, x_5) \rightarrow \text{CLASSE } \Sigma_5$
+
+Até o momento, esses são problemas fáceis de descrever e resolver.
+
+Veja que são intuitivos. Eu consigo dizer que existe um $x_1, \ldots, x_5$ que satisfaz o predicado $P$. Assim como eu consigo dizer que para todo $x_1, \ldots, x_5$, o predicado é satisfeito.
+
+Porém, o nível de complexidade aumenta quando temos alternância dos quantificadores:
+
+- $\forall x_1 \exists x_2 \forall x_3 \exists x_4 \forall x_5 P(x_1, \ldots, x_5) \rightarrow \text{CLASSE } \Pi_5$
+
+
+- $\exists x_1 \forall x_2 \exists x_3 \forall x_4 \exists x_5 P(x_1, \ldots, x_5) \rightarrow \text{CLASSE } \Sigma_5$
+
+
+Esses são problemas difíceis de descrever e altamente complexos de resolver ou incompletos. Veja que, no exemplo, as sentenças estão em classes hierárquicas de acordo com as seguintes definições:
+
+- $\forall x_1, \ldots, \forall x_5 P(x_1, \ldots, x_5)$ está em $\Pi_5$, pois começo com $\forall$ e alterno 1 vez os quantificadores.
+
+- $\exists x_1, \ldots, \exists x_5 P(x_1, \ldots, x_5)$ está em $\Sigma_5$, pois começo com $\exists$ e alterno 1 vez os quantificadores.
+
+## Definição 8.2: Revisão de Lógica
+
+Essas propriedades de lógica serão úteis para se utilizar ao reduzir problemas:
+
+- $\forall x_1(\forall x_2 P(x_1, x_2) \otimes \forall x_3 P(x_1, x_3)) \equiv \forall x_1 \forall x_2 \forall x_3 (P(x_1, x_2) \otimes P(x_1, x_3))$
+
+- $\exists x_1(\exists x_2 P(x_1, x_2) \otimes \exists x_3 P(x_1, x_3)) \equiv \exists x_1 \exists x_2 \exists x_3 (P(x_1, x_2) \otimes P(x_1, x_3))$
+
+Onde $\otimes \in \{\vee, \wedge\}$.
+
+Eu posso trazer todos os quantificadores para a esquerda da sentença. Em caso de alternâncias entre quantificadores, eu posso também fazer isso:
+
+1. $\forall x_1(\exists x_2 P(x_1, x_2) \otimes \exists x_3 P(x_1, x_3)) \equiv \forall x_1 \exists x_2 \forall x_3 (P(x_1, x_2) \otimes P(x_1, x_3))$
+
+2. $\exists x_1(\forall x_2 P(x_1, x_2) \otimes \exists x_3 P(x_1, x_3)) \equiv \exists x_1 \forall x_2 \exists x_3 (P(x_1, x_2) \otimes P(x_1, x_3))$
+
+E veja que, pegando o exemplo 2 acima, eu posso fazer a seguinte alternância dos quantificadores: $\exists x_1 \forall x_2 \exists x_3 (\ldots) \equiv \exists x_1 \exists x_3 \forall x_2(\ldots)$. Eu posso trocar a ordem dos quantificadores desde que **os quantificadores estejam no mesmo nível de hierarquia dos parênteses onde eles estavam previamente**.
+
+Essas propriedades clássicas também podem ser utilizadas:
+
+- $(A \rightarrow B) \equiv \neg A \lor B$
+- $\neg \forall x P(x) \equiv \exists x \neg P(x)$
+- $\neg \exists x P(x) \equiv \forall x \neg P(x)$
+
+### Exemplo 8.2: Simplificar a sentença $\forall x P(x) \rightarrow \exists x P(x)$
+
+- $\forall x P(x) \rightarrow \exists x P(x) \Rightarrow \neg \forall x P(x) \lor \exists x P(x) \Rightarrow \exists x \neg P(x) \lor \exists x P(x)$
+
+
+### OBSERVAÇÃO:
+
+Observe que na propriedade
+
+$$\exists x_1(\forall x_2 P(x_1, x_2) \otimes \exists x_3 P(x_1, x_3)) \equiv \exists x_1 \forall x_2 \exists x_3 (P(x_1, x_2) \otimes P(x_1, x_3))$$
+
+No lado direito, é a forma que podemos utilizar para classificar hierarquicamente uma proposição lógica. Só que, como foi dito, é possível alternar os quantificadores se estiverem na mesma hierarquia de parênteses ao passar todos os quantificadores para o lado esquerdo do predicado. Portanto, temos o seguinte rearranjo:
+
+$$\underbrace{\exists x_1 \forall x_2 \exists x_3}_{\Sigma_3} (P(x_1, x_2) \otimes P(x_1, x_3)) \equiv \underbrace{\exists x_1 \exists x_3 \forall x_2}_{\Sigma_2} (P(x_1, x_2) \otimes P(x_1, x_3))$$
+
+Perceba que a sentença acima pertence a $\Sigma_2 \subseteq \Sigma_3$. Isso significa que é possível reduzir problemas. Muitos conjuntos de hierarquias maiores agrupam problemas menos complexos, e por isso em vários casos é possível simplificar.
+
+## Definição 8.3: Hierarquias Aplicadas a Conjuntos Famosos
+
+### Exemplo 8.2: Mostre em que classe hierárquica o seguinte conjunto está contido: $K = \{ x \in \mathbb{N} \mid \Phi(x, x) \downarrow \}$
+
+Eu já sei que $K$ é r.e., mas, para ver em qual classe hierárquica ele pertence, eu preciso destrinchar a regra do conjunto:
+
+$$x \in K \iff \Phi(x, x) \downarrow \iff \exists t \underbrace{STP(x, x, t)}_{computável}$$
+
+Se $\Phi(x,x)$, então existe um número $t$ de passos que faz o programa $x$ parar com entrada $x$. Se o predicado $STP$ (Step) é computável, só tem 1 alternância e começa com $exists$, então $K \in \Sigma_1$.
+
+### Exemplo 8.3: Mostre em que classe hierárquica o seguinte conjunto está contido: $\overline{K} = \{ x \in \mathbb{N} \mid \Phi(x, x) \uparrow \}$
+
+$$x \in \overline{K} \iff \Phi(x, x) \uparrow \iff \neg \exists t STP(x, x, t) \iff \forall t \neg STP(x, x, t)$$
+
+Se o predicado $STP$ (Step) é computável, só tem 1 alternância e começa com $forall$, então $\overline{K} \in \Pi_1$.
+
+É possível generalizar com base nisso que** $A \in \Sigma_i$, então $\overline{A} \in \Pi_i$.
+
+
+### Exemplo 8.4: Mostre em que classe hierárquica o seguinte conjunto está contido: $TOT = \{x \in \mathbb{N} \mid \forall y \Phi(y, x)\downarrow\}$
+
+$$x \in TOT \iff \forall y \Phi(y, x)\downarrow \iff \forall y \exists t STP(y, x, t)$$
+
+Se o predicado STP é computável, tem 2 alternâncias e começa com $\forall$, então $TOT \in \Pi_2$.
+
+### Exemplo 8.5: Mostre em que classe hierárquica o seguinte conjunto está contido: $EMPTY = \{x \in \mathbb{N} \mid W_x = \varnothing \}$
+
+$$x \in EMPTY \iff W_x = \emptyset \iff \forall y \phi(y, x)\uparrow \iff \forall y \neg \exists STP(y, x, t) \iff \forall y \forall t \neg STP(y,x,t)$$
+
+Se o predicado STP é computável, tem 1 alternância e começa com $\forall$, então $EMPTY \in \Pi_1$.
+
+### Exemplo 8.6: Mostre em que classe hierárquica o seguinte conjunto está contido: $FIN = \{x \in \mathbb{N} \mid W_x \text{ é finito}\}$
+
+$$x \in FIN \iff W_x \text{ é finito} \iff \exists y \left[\Phi(y,x)\downarrow \quad \wedge \quad \forall z (z > y \rightarrow \Phi(z, x)\uparrow)\right]$$
+
+**Intuição**: $y$ é a maior entrada que faz o programa $x$ parar. Para $W_x$ ser finito, ele precisa ter um máximo.
+
+Essa foi a parte mais difícil. Agora o objetivo é simplificar a expressão lógica utilizando as propriedades revisadas:
+
 $$
-L = \Sigma a^{2^n} | n \geq 0
+\iff \exists y \left[\\exists t_1 STP(y, x, t_1) \quad \wedge \quad \forall z (\neg (z > y) \quad \vee \quad \forall t_2 \neg STP(z, x, t_2))\right]
 $$
 
----
+Nesse ponto eu já sei que $FIN \in \Sigma_i$. Resta encontrar o nível de complexidade $i$. Próximo passo é deslocar todos os quantificadores para a esquerda, respeitando a hierarquia de parênteses ao escolher como ficará disposta a ordem dos quantificadores no lado esquerdo.
 
-Agora todos os símbolos LaTeX estão entre cifrões corretamente. Isso garantirá que o formato seja exibido conforme o esperado.
+$$\iff \exists y \exists t \forall z \left[ STP(y, x, t_1) \land (\neg (z > y) \lor \neg STP(z, x, t_2)) \right]$$
+
+Veja que os quantificadores alternam 2 vezes. E começa com $\exists$.
+
+Portanto, $FIN \in \Sigma_2$.
+
+Como corolário, o conjunto $\overline{FIN} = INF = \{x \in \mathbb{N} \mid W_x \text{ é infinito} \} \in \Pi_2$.
+
+**SEMPRE RESPEITAR A HIERARQUIA DOS PARÊNTESES** quando for passar os quantificadores para a esquerda. No mesmo nível de parênteses, pode-se escolher quem vem primeiro. Nesse caso do exemplo acima, poderia ser $\exists y \forall z \exists t_1 \forall t_2 [\ldots]$, porém teríamos mais complexidade desnecessária.
+
+#### Conclusão
+
+O Exemplo 8.6 é um bom exemplo complexo para mostrar que nem sempre é fácil achar a hierarquia de um conjunto. A maior dificuldade está em traduzir para termos de lógica as regras do conjunto. Uma vez feito isso corretamente, a simplificação é a etapa mais fácil. Normalmente, os problemas mais difíceis envolvem restrições de conjuntos expressadas em linguagem natural, por exemplo, a tradução de $W_x \text{ é finito}$, ou $W_x \text{ não é recursivo}$ para uma expressão lógica.
+
+Nos problemas que serão abordados aqui (na parte de hierarquia aritmética), serão no máximo $\Sigma_2, \Pi_2$ e $\Delta_2$.
