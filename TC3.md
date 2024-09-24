@@ -1377,8 +1377,16 @@ Como corolário, o conjunto $\overline{FIN} = INF = \{x \in \mathbb{N} \mid W_x 
 
 **SEMPRE RESPEITAR A HIERARQUIA DOS PARÊNTESES** quando for passar os quantificadores para a esquerda. No mesmo nível de parênteses, pode-se escolher quem vem primeiro. Nesse caso do exemplo acima, poderia ser $\exists y \forall z \exists t_1 \forall t_2 [\ldots]$, porém teríamos mais complexidade desnecessária.
 
-#### Conclusão
+**Conclusão**
 
 O Exemplo 8.6 é um bom exemplo complexo para mostrar que nem sempre é fácil achar a hierarquia de um conjunto. A maior dificuldade está em traduzir para termos de lógica as regras do conjunto. Uma vez feito isso corretamente, a simplificação é a etapa mais fácil. Normalmente, os problemas mais difíceis envolvem restrições de conjuntos expressadas em linguagem natural, por exemplo, a tradução de $W_x \text{ é finito}$, ou $W_x \text{ não é recursivo}$ para uma expressão lógica.
 
 Nos problemas que serão abordados aqui (na parte de hierarquia aritmética), serão no máximo $\Sigma_2, \Pi_2$ e $\Delta_2$.
+
+### Exemplo 8.7: Mostre em que classe hierárquica o seguinte conjunto está contido: $A = \{x \in \mathbb{N} \mid \Phi(0, x) > 11\}$
+
+$$x \in A \iff \Phi(0, x) > 11 \iff \exists t\[STP(0, x, t) \land (r(SNAP(0,x,t)))_1 > 11\]$$
+
+Portanto, $A \in \Sigma_1$.
+
+Sempre que tiver pedindo um valor ou intervalo específico para o que $\Phi$ retorna, usar a função $SNAP$. Ela é uma função de pareamento $\left<i, \sigma\right>$, onde nesse caso eu capturei o valor $\sigma$ com a função $r$, e por conta do estado do programa ser um Número de Gödel, eu capturei o valor de $Y$ desse estado.
