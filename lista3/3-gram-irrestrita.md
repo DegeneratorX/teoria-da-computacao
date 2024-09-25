@@ -64,7 +64,7 @@ $$L = \{a^{2^n + n} \mid n \ge 0\}$$
 
 Nesta questão, além da Gramática, explique a sua intuição.
 
-Observação: $a^{2^n} + n$ quer dizer uma sequência de $2^n + n$ $a$'s. Exemplo: $a$, $aaa$, $a^6$ e $a^11$ são exemplos de palavras que estão em $L$.
+Observação: $a^{2^n} + n$ quer dizer uma sequência de $2^n + n$ $a$'s. Exemplo: $a$, $aaa$, $a^6$ e $a^{11}$ são exemplos de palavras que estão em $L$.
 
 ## Questão 5 - 2023.1.AF
 
