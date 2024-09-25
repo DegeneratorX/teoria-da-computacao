@@ -1385,7 +1385,7 @@ Nos problemas que serão abordados aqui (na parte de hierarquia aritmética), se
 
 ### Exemplo 8.7: Mostre em que classe hierárquica o seguinte conjunto está contido: $A = \{x \in \mathbb{N} \mid \Phi(0, x) > 11\}$
 
-$$x \in A \iff \Phi(0, x) > 11 \iff \exists t\[STP(0, x, t) \land (r(SNAP(0,x,t)))_1 > 11\]$$
+$$x \in A \iff \Phi(0, x) > 11 \iff \exists t[STP(0, x, t) \land (r(SNAP(0,x,t)))_1 > 11]$$
 
 Portanto, $A \in \Sigma_1$.
 

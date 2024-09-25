@@ -19,7 +19,9 @@ em que $W_x = \{z \in \mathbb{N} \mid \Phi(z, x)\downarrow\}$ e $EMPTY = \{z \in
 Determine em que classe hierárquica encontram-se os conjuntos abaixo:
 
 - (a) $A = \{x \in \mathbb{N} \mid W_x \subseteq \{y \in \mathbb{N} \mid (\exists z)\Phi(z,y)\downarrow\}\}$
-- (b) $B = \{x \in  \mathbb{N} \mid (\forall y) \Phi(y,x) = \Phi(y, x+1)\}$, em que $W_x = \{y \in \mathbb{N} \mid \Phi(y,x)\downarrow\}$
+- (b) $B = \{x \in  \mathbb{N} \mid (\forall y) \Phi(y,x) = \Phi(y, x+1)\}$
+
+em que $W_x = \{y \in \mathbb{N} \mid \Phi(y,x)\downarrow\}$
 
 ## Questão 3 - 2023.1.1
 
